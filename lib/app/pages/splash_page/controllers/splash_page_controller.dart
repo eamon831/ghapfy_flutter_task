@@ -8,7 +8,16 @@ class SplashPageController extends BaseController {
   }
 
   Future<void> navigatePage() async {
-    await 2.delay();
+    final isLogin = await prefs.getBool(prefIsLogin);
+    if (isLogin) {
+      final userData = await prefs.getString(prefUser);
+      if (userData != null) {
+        LoggedUser.fromJson(jsonDecode(userData));
+        if(kDebugMode){
+          print('Logged User: ${LoggedUser().toJson()}');
+        }
+      }
+    }
     Get.offNamed(Routes.home);
   }
 }
