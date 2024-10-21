@@ -3,24 +3,13 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
-
-  static const root = _Paths.root;
-  static const home = _Paths.home;
-  static const favorite = _Paths.favorite;
-  static const settings = _Paths.settings;
-  static const other = _Paths.other;
-  static const projectDetails = _Paths.projectDetails;
-  static const localDbData = _Paths.localDbData;
   static const splashPage = _Paths.splashPage;
+  static const home = _Paths.home;
+  static const login = _Paths.login;
 }
 
 abstract class _Paths {
-  static const root = '/root';
-  static const home = '/home';
-  static const favorite = '/favorite';
-  static const settings = '/settings';
-  static const other = '/other';
-  static const localDbData = '/localDbData';
   static const splashPage = '/splashPage';
-  static const projectDetails = '/project-details';
+  static const home = '/home';
+  static const login = '/login';
 }

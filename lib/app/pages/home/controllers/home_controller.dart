@@ -61,11 +61,7 @@ class HomeController extends BaseController {
     notifyChildrens();
   }
 
-  void goToLocalDbPage() {
-    Get.toNamed(
-      Routes.localDbData,
-    );
-  }
+  void goToLocalDbPage() {}
 
   @override
   Future<void> refreshData() async {
