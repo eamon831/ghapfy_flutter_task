@@ -1,11 +1,13 @@
 import '/app/core/exporter.dart';
 
 class HomeController extends BaseController {
+
   @override
   Future<void> onInit() async {
     super.onInit();
     updatePageState(PageState.loading);
     await 5.delay();
+    await services.getProducts();
     updatePageState(PageState.success);
   }
 

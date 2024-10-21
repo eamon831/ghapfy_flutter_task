@@ -1,4 +1,5 @@
 import 'package:getx_template/app/core/utils/parser.dart';
+import 'package:getx_template/app/entity/product_list.dart';
 import 'package:getx_template/app/entity/user.dart';
 
 import '/app/core/exporter.dart';
@@ -90,6 +91,27 @@ class Services {
       if (responseData == null || responseData['error'] != null) {
         throw Exception('Failed to register');
       }
+    } catch (e, s) {
+      printError(e, s, endPoint);
+      rethrow;
+    }
+  }
+
+  Future<List<ProductList>?> getProducts() async {
+    const endPoint = 'products?limit=10';
+    try {
+      final response = await dio.get(
+        APIType.public,
+        endPoint,
+        headers: await _buildHeader(),
+      );
+
+      final responseData = response.data as List?;
+      if (responseData == null) return null;
+      return parseList(
+        list: responseData,
+        fromJson: ProductList.fromJson,
+      );
     } catch (e, s) {
       printError(e, s, endPoint);
       rethrow;
