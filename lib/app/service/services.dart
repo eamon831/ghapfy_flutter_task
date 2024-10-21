@@ -1,6 +1,5 @@
 import 'package:getx_template/app/core/utils/parser.dart';
 import 'package:getx_template/app/entity/product_list.dart';
-import 'package:getx_template/app/entity/user.dart';
 
 import '/app/core/exporter.dart';
 import 'client/api_options.dart';
@@ -20,7 +19,7 @@ class Services {
     token: '',
   );
 
-  Future<Map<String, dynamic>> _buildHeader() async {
+  Map<String, dynamic> _buildHeader() {
     return {};
   }
 
@@ -52,7 +51,7 @@ class Services {
         APIType.public,
         endPoint,
         data,
-        headers: await _buildHeader(),
+        headers: _buildHeader(),
       );
 
       final responseData = response.data as Map<String, dynamic>?;
@@ -84,7 +83,7 @@ class Services {
         APIType.public,
         endPoint,
         data,
-        headers: await _buildHeader(),
+        headers: _buildHeader(),
       );
 
       final responseData = response.data as Map<String, dynamic>?;
@@ -98,12 +97,12 @@ class Services {
   }
 
   Future<List<ProductList>?> getProducts() async {
-    const endPoint = 'products?limit=10';
+    const endPoint = 'products?limit=20';
     try {
       final response = await dio.get(
         APIType.public,
         endPoint,
-        headers: await _buildHeader(),
+        headers: _buildHeader(),
       );
 
       final responseData = response.data as List?;

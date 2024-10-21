@@ -1,4 +1,4 @@
-import 'package:getx_template/app/bindings/initial_binding.dart';
+import 'package:getx_template/app/entity/product_list.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '/app/core/exporter.dart';
@@ -16,49 +16,79 @@ class HomeView extends BaseView<HomeController> {
 
   @override
   Widget body(BuildContext context) {
-    return Column(
-      // mainAxisAlignment: centerMAA,
-      children: [
-        10.height,
-        SelectiveButton(
-          onPressed: controller.goToLocalDbPage,
-          text: 'Local DB',
-          isSelected: true,
-          color: Colors.blue,
-          textColor: Colors.white,
-          width: 100,
-          height: 20,
-          borderRadius: 10,
-          elevation: 5,
-          padding: 10,
-          margin: 10,
-          icon: Icons.image,
-          iconSize: 20,
-          iconColor: Colors.white,
-          iconPadding: 10,
-          iconMargin: 10,
+    return Obx(
+      () => PagedListView<int, ProductList>(
+        pagingController: controller.pagingController.value,
+        shrinkWrap: true,
+        builderDelegate: PagedChildBuilderDelegate<ProductList>(
+          itemBuilder: (context, item, index) {
+            return _buildCardView(
+              element: item,
+              index: index,
+              context: context,
+            );
+          },
+          newPageErrorIndicatorBuilder: (context) {
+            return ListRetryView(
+              onRetry: controller.pagingController.value.retryLastFailedRequest,
+            );
+          },
         ),
-        10.height,
-        SelectiveButton(
-          onPressed: controller.refreshData,
-          text: 'Refresh',
-          isSelected: true,
-          color: Colors.blue,
-          textColor: Colors.white,
-          width: 100,
-          height: 20,
-          borderRadius: 10,
-          elevation: 5,
-          padding: 10,
-          margin: 10,
-          icon: Icons.image,
-          iconSize: 20,
-          iconColor: Colors.white,
-          iconPadding: 10,
-          iconMargin: 10,
+      ),
+    );
+  }
+
+  Widget _buildCardView({
+    required ProductList element,
+    required int index,
+    required BuildContext context,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: 16,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(
+          AppValues.containerBorderRadius,
         ),
-        10.height,
-      ],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Text(
+            element.title ?? '',
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          8.height,
+          Text(
+            element.description ?? '',
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          8.height,
+          Text(
+            element.price.toString(),
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
