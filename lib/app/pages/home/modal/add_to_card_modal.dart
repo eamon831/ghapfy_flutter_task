@@ -1,6 +1,7 @@
 import 'package:getx_template/app/core/exporter.dart';
 import 'package:getx_template/app/entity/cart.dart';
 import 'package:getx_template/app/entity/product_list.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class AddToCardModal extends StatefulWidget {
   final ProductList productList;
@@ -14,7 +15,7 @@ class AddToCardModal extends StatefulWidget {
 }
 
 class _AddToCardModalState extends State<AddToCardModal> {
-  final quantity = 1.obs;
+  final quantity = 0.obs;
   final dbHelper = DbHelper.instance;
 
   @override
@@ -41,64 +42,81 @@ class _AddToCardModalState extends State<AddToCardModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        //mainAxisAlignment: spaceBetweenMAA,
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
         children: [
-          Row(
-            children: [
-              IconButton.outlined(
-                onPressed: () {
-                  if (quantity.value > 0) {
-                    quantity.value--;
-                  }
-                },
-                icon: const Icon(
-                  TablerIcons.minus,
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 8, right: 8),
-                child: Obx(
-                  () => Text(
-                    quantity.value.toString(),
-                  ),
-                ),
-              ),
-              IconButton.outlined(
-                onPressed: () {
-                  quantity.value++;
-                },
-                icon: const Icon(
-                  TablerIcons.plus,
-                ),
-              ),
-            ],
+          const Text(
+            'Note : You need to press the add to cart if you are updating the quantity or adding a new product',
           ),
-          Expanded(
-            child: InkWell(
-              onTap: () async {
-                final cart = Cart(
-                  productId: widget.productList.id,
-                  quantity: quantity.value,
-                  price: widget.productList.price,
-                );
-                await dbHelper.addItemToCart(cart);
-                Get.back();
-              },
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                margin: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+          Center(
+            child: Row(
+              //mainAxisAlignment: spaceBetweenMAA,
+              children: [
+                Row(
+                  children: [
+                    IconButton.outlined(
+                      onPressed: () {
+                        if (quantity.value > 1) {
+                          quantity.value--;
+                        } else {
+                          toast('At least one quantity is required');
+                        }
+                      },
+                      icon: const Icon(
+                        TablerIcons.minus,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 8, right: 8),
+                      child: Obx(
+                        () => Text(
+                          quantity.value.toString(),
+                        ),
+                      ),
+                    ),
+                    IconButton.outlined(
+                      onPressed: () {
+                        quantity.value++;
+                      },
+                      icon: const Icon(
+                        TablerIcons.plus,
+                      ),
+                    ),
+                  ],
                 ),
-                child: Center(
-                  child: Text(
-                    appLocalization.addToCart,
+                Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      if (quantity.value == 0) {
+                        toast('At least one quantity is required');
+                        return;
+                      }
+                      final cart = Cart(
+                        productId: widget.productList.id,
+                        quantity: quantity.value,
+                        price: widget.productList.price,
+                      );
+                      await dbHelper.addItemToCart(cart);
+                      Get.back();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          appLocalization.addToCart,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ],

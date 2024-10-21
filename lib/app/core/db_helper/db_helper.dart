@@ -245,7 +245,9 @@ class DbHelper {
       List<dynamic> whereArgs;
 
       whereClause = 'productId == ?';
-      whereArgs = [cart.productId,];
+      whereArgs = [
+        cart.productId,
+      ];
 
       // Check if the product with the variation already exists in the cart
       final existingItems = await find(
@@ -257,7 +259,7 @@ class DbHelper {
       if (existingItems.isNotEmpty) {
         final preQuantity = existingItems[0]['quantity'] ?? 0;
         final updatedCart = cart.toJson()
-          ..['quantity'] = (cart.quantity ?? 0) + preQuantity
+          ..['quantity'] = (cart.quantity ?? 0)
           ..remove('productId') // Exclude non-updatable fields
           ..removeWhere((key, value) => value == null); // Clean up null values
 
