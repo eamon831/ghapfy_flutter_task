@@ -11,6 +11,7 @@ abstract class Routes {
   static const other = _Paths.other;
   static const projectDetails = _Paths.projectDetails;
   static const localDbData = _Paths.localDbData;
+  static const splashPage = _Paths.splashPage;
 }
 
 abstract class _Paths {
@@ -20,5 +21,6 @@ abstract class _Paths {
   static const settings = '/settings';
   static const other = '/other';
   static const localDbData = '/localDbData';
+  static const splashPage = '/splashPage';
   static const projectDetails = '/project-details';
 }

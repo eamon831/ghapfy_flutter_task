@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import '/app/pages/splash_page/bindings/splash_page_binding.dart';
+import '/app/pages/splash_page/views/splash_page_view.dart';
 
 import '/app/pages/home/bindings/home_binding.dart';
 import '/app/pages/home/views/home_view.dart';
@@ -29,6 +31,11 @@ class AppPages {
       name: Routes.localDbData,
       page: LocalDbDataView.new,
       binding: LocalDbDataBinding(),
+    ),
+    GetPage(
+      name: Routes.splashPage,
+      page: SplashPageView.new,
+      binding: SplashPageBinding(),
     ),
   ];
 }

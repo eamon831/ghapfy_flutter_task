@@ -74,7 +74,6 @@ class LocalDbDataView extends BaseView<LocalDbDataController> {
               iconPadding: 10,
               iconMargin: 10,
             ),
-
           ],
         ),
         Expanded(
