@@ -12,8 +12,8 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   final devConfig = EnvConfig(
-    appName: 'Flutter GetX Template Dev',
-    baseUrl: 'https://api.github.com',
+    appName: 'Ghapfy Flutter Task',
+    baseUrl: 'https://fakestoreapi.com/',
     shouldCollectCrashLog: true,
   );
 
