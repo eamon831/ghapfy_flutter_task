@@ -130,7 +130,7 @@ class Services {
   }
 
   Future<List<ProductList>?> getProducts() async {
-    const endPoint = 'products?limit=20';
+    const endPoint = 'products';
     try {
       final response = await dio.get(
         APIType.public,

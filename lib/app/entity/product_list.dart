@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'rating.dart';
 
 class ProductList {
@@ -27,7 +29,17 @@ class ProductList {
       description: json['description'],
       category: json['category'],
       image: json['image'],
-      rating: Rating.fromJson(json['rating']),
+      rating: json['rating'] == null
+          ? null
+          : json['rating'] is String
+              ? Rating.fromJson(
+                  jsonDecode(
+                    json['rating'],
+                  ),
+                )
+              : Rating.fromJson(
+                  json['rating'],
+                ),
     );
   }
 
@@ -39,7 +51,7 @@ class ProductList {
     data['description'] = description;
     data['category'] = category;
     data['image'] = image;
-    data['rating'] = rating!.toJson();
+    data['rating'] = jsonEncode(rating?.toJson());
     return data;
   }
 }

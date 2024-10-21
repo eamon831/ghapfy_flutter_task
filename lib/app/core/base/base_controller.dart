@@ -11,7 +11,7 @@ abstract class BaseController extends GetxController {
   Services get services => Services.instance;
   LoggedUser get loggedUser => LoggedUser();
 
-  final pageLimit = 25;
+  final pageLimit = 10;
 
   final prefs = SessionManager();
 

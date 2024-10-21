@@ -1,11 +1,12 @@
 import 'package:getx_template/app/entity/product_list.dart';
+import 'package:getx_template/app/pages/home/modal/add_to_card_modal.dart';
 
 import '/app/core/exporter.dart';
 
 class HomeController extends BaseController {
   final pagingController = Rx<PagingController<int, ProductList>>(
     PagingController<int, ProductList>(
-      firstPageKey: 1,
+      firstPageKey: 0,
     ),
   );
 
@@ -25,8 +26,26 @@ class HomeController extends BaseController {
   Future<void> _initializePagingController() async {
     try {
       updatePageState(PageState.loading);
+      // As the api does not have pagination(it has limits but no page number)
+      // so my plan is to fetch all the data at once and cache it in the local
+      // database,then use the local database to paginate the data.each time 10
+      // items will be fetched from the local database.
+      try {
+        final apiDataList = await services.getProducts();
+        final count = await dbHelper.getItemCount(
+          tableName: tableProducts,
+        );
+
+        await dbHelper.insertList(
+          deleteBeforeInsert: true,
+          tableName: tableProducts,
+          dataList: apiDataList?.map((e) => e.toJson()).toList() ?? [],
+        );
+      } catch (e) {
+        // TODO
+      }
       await fetchProductList(
-        pageKey: 1,
+        pageKey: 0,
       );
     } finally {
       if (pagingController.value.itemList == null) {
@@ -42,12 +61,12 @@ class HomeController extends BaseController {
   Future<void> fetchProductList({
     required int pageKey,
   }) async {
-    final apiDataList = await services.getProducts();
-
-    if (apiDataList == null) {
-      pagingController.value.error = true;
-      return;
-    }
+    final localList = await dbHelper.getAll(
+      tbl: tableProducts,
+      limit: pageLimit,
+      offset: pagingController.value.itemList?.length ?? 0,
+    );
+    final apiDataList = localList.map((e) => ProductList.fromJson(e)).toList();
 
     if ((apiDataList.length) < pageLimit) {
       pagingController.value.appendLastPage(apiDataList);
@@ -57,13 +76,7 @@ class HomeController extends BaseController {
         pageKey + 1,
       );
     }
-
-    update();
-    refresh();
-    notifyChildrens();
   }
-
-  void goToLocalDbPage() {}
 
   @override
   Future<void> refreshData() async {
@@ -75,7 +88,16 @@ class HomeController extends BaseController {
     Get.toNamed(Routes.login);
   }
 
-  addToCart(ProductList element) {
+  Future<void> addToCart(ProductList element) async {
     // Add to cart
+    await Get.dialog(
+      DialogPattern(
+        title: appLocalization.addToCart,
+        subTitle: '',
+        child: AddToCardModal(
+          productList: element,
+        ),
+      ),
+    );
   }
 }

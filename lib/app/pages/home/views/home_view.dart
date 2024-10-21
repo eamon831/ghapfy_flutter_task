@@ -26,6 +26,9 @@ class HomeView extends BaseView<HomeController> {
     return PagedListView<int, ProductList>(
       pagingController: controller.pagingController.value,
       shrinkWrap: true,
+      padding: const EdgeInsets.only(
+        bottom: 60,
+      ),
       builderDelegate: PagedChildBuilderDelegate<ProductList>(
         itemBuilder: (context, item, index) {
           return _buildCardView(
@@ -70,33 +73,52 @@ class HomeView extends BaseView<HomeController> {
         ],
       ),
       child: Column(
+        crossAxisAlignment: startCAA,
         children: [
-          commonCachedNetworkImage(
-            element.image,
-            //width: 100,
-            fit: BoxFit.cover,
-          ),
-          8.height,
-          Text(
-            element.title ?? '',
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          Center(
+            child: commonCachedNetworkImage(
+              element.image,
+              //width: 100,
+              fit: BoxFit.cover,
             ),
           ),
           8.height,
           Row(
-            mainAxisAlignment: spaceBetweenMAA,
             children: [
               Text(
-                element.price.toString(),
+                '${index + 1}',
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+              10.width,
+              Expanded(
+                child: Text(
+                  ' ${element.title ?? ''}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  maxLines: 1,
+                ),
+              ),
+            ],
+          ),
+          8.height,
+          Text(
+            element.price.toString(),
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: spaceBetweenMAA,
+            children: [
               // add to cart button
               SelectiveButton(
-                onPressed: ()=> controller.addToCart(element),
+                onPressed: () => controller.addToCart(element),
                 color: Colors.green,
                 text: appLocalization.addToCart,
                 //isSelected: true,

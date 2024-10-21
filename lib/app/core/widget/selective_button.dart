@@ -41,7 +41,7 @@ class SelectiveButton extends StatelessWidget {
     this.borderColor,
     this.icon,
     this.iconSize,
-    this.iconColor,
+    this.iconColor = Colors.black,
     this.iconPadding,
     this.iconMargin,
   });
