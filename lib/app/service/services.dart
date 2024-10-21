@@ -1,5 +1,6 @@
 import 'package:getx_template/app/core/utils/parser.dart';
 import 'package:getx_template/app/entity/product_list.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '/app/core/exporter.dart';
 import 'client/api_options.dart';
@@ -59,10 +60,36 @@ class Services {
         return false;
       }
 
+      final token = responseData['token'];
+      print('Token $token');
+      final decodedToken = JwtDecoder.decode(token);
+      print('Decoded token $decodedToken');
+      // decode the jwt token and get the user id (i guess sub is the user id )
+      final userData = await getUserInfoById(userId: decodedToken!['sub']);
+      print('UserData $userData');
+
       return true;
     } catch (e, s) {
       printError(e, s, endPoint);
       return false;
+    }
+  }
+
+  Future<Map<String, dynamic>?> getUserInfoById({
+    required int userId,
+  }) async {
+    const endPoint = 'users/';
+    try {
+      final response = await dio.get(
+        APIType.public,
+        endPoint + userId.toString(),
+        headers: _buildHeader(),
+      );
+      final responseData = response.data as Map<String, dynamic>?;
+      return responseData;
+    } catch (e, s) {
+      printError(e, s, endPoint);
+      return null;
     }
   }
 
