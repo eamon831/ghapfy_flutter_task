@@ -229,6 +229,16 @@ class DbHelper {
     return [];
   }
 
+  Future<List<Map<String, Object?>>> getTotalCountANdSum({
+    String? tableName,
+  }) async {
+    final db = await instance.database;
+    final result = await db!.rawQuery(
+      'SELECT COUNT(productId) AS count, ROUND(SUM(price * quantity), 2) AS total FROM cart'
+    );
+    return result;
+  }
+
   Future<bool> addItemToCart(Cart cart) async {
     try {
       final db = await instance.database;

@@ -8,6 +8,7 @@ class InitialBinding implements Bindings {
   @override
   Future<void> dependencies() async {
     Get.put(CartController());
+    await Get.find<CartController>().getTotalCarts();
     await SessionManager().init();
     await initialize();
   }

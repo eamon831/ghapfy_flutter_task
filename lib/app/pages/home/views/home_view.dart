@@ -10,7 +10,7 @@ class HomeView extends BaseView<HomeController> {
   @override
   PreferredSizeWidget? appBar(BuildContext context) {
     return CustomAppBar(
-      appBarTitleText: 'GetX Templates on GitHub',
+      appBarTitleText: 'Home',
       actions: [
         // login button
         ElevatedButton(
@@ -125,6 +125,52 @@ class HomeView extends BaseView<HomeController> {
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget bottomNavigationBar() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.4),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: spaceBetweenMAA,
+        children: [
+          Text(
+            appLocalization.cart,
+            style: boldTextStyle(
+              color: Colors.white,
+            ),
+          ),
+          Obx(()=>Row(
+            children: [
+              Text(
+                controller.cartController.totalCartItem.value.toString(),
+                style: boldTextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              8.width,
+              Text(
+                controller.cartController.totalCartAmount.value.toString(),
+                style: boldTextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),),
         ],
       ),
     );

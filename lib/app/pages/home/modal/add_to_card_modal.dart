@@ -1,6 +1,7 @@
 import 'package:getx_template/app/core/exporter.dart';
 import 'package:getx_template/app/entity/cart.dart';
 import 'package:getx_template/app/entity/product_list.dart';
+import 'package:getx_template/app/global_controller/cart_controller.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class AddToCardModal extends StatefulWidget {
@@ -98,6 +99,8 @@ class _AddToCardModalState extends State<AddToCardModal> {
                         price: widget.productList.price,
                       );
                       await dbHelper.addItemToCart(cart);
+                      final cartController = Get.find<CartController>();
+                      await cartController.getTotalCarts();
                       Get.back();
                     },
                     child: Container(

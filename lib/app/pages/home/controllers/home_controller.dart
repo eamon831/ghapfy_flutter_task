@@ -1,4 +1,5 @@
 import 'package:getx_template/app/entity/product_list.dart';
+import 'package:getx_template/app/global_controller/cart_controller.dart';
 import 'package:getx_template/app/pages/home/modal/add_to_card_modal.dart';
 
 import '/app/core/exporter.dart';
@@ -9,6 +10,7 @@ class HomeController extends BaseController {
       firstPageKey: 0,
     ),
   );
+  final cartController = Get.find<CartController>();
 
   @override
   Future<void> onInit() async {
@@ -99,5 +101,8 @@ class HomeController extends BaseController {
         ),
       ),
     );
+  }
+
+  void goToCartPage() {
   }
 }
