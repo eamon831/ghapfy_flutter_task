@@ -92,6 +92,7 @@ class HomeView extends BaseView<HomeController> {
               fontSize: 16,
             ),
           ),
+          
         ],
       ),
     );
