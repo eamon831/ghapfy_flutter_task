@@ -1,4 +1,5 @@
 // global export file
+export 'dart:convert';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart';

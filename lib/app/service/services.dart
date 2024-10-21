@@ -56,17 +56,23 @@ class Services {
       );
 
       final responseData = response.data as Map<String, dynamic>?;
-      if (responseData == null || responseData['error'] != null) {
+      if (responseData == null) {
         return false;
       }
 
       final token = responseData['token'];
-      print('Token $token');
       final decodedToken = JwtDecoder.decode(token);
-      print('Decoded token $decodedToken');
       // decode the jwt token and get the user id (i guess sub is the user id )
       final userData = await getUserInfoById(userId: decodedToken!['sub']);
-      print('UserData $userData');
+      if (userData == null) {
+        return false;
+      }
+      await pref.setString(key: prefLoggedUserName, value: username);
+      await pref.setString(key: prefLoggedUserPassword, value: password);
+      await pref.setString(key: prefLoggedUserToken, value: token);
+      await pref.setBool(key: prefIsLogin, value: true);
+      await pref.setString(key: prefUser, value: jsonEncode(userData));
+      LoggedUser.fromJson(userData);
 
       return true;
     } catch (e, s) {
