@@ -40,7 +40,7 @@ class LoginPageView extends BaseView<LoginPageController> {
                         labelText: appLocalization.email,
                         hintText: appLocalization.email,
                       ),
-                      validator: emailValidator,
+                      validator: requiredValidator,
                       autovalidateMode: onUserInteraction,
                     ),
                     const SizedBox(height: 24),

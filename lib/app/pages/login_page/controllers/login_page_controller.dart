@@ -5,10 +5,10 @@ import '/app/core/exporter.dart';
 class LoginPageController extends BaseController {
   final formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController(
-    text: kDebugMode ? 'gsumon@gainhealth.org' : '',
+    text: kDebugMode ? 'johnd' : '',
   );
   final passwordController = TextEditingController(
-    text: kDebugMode ? '123456' : '',
+    text: kDebugMode ? r'm38rmF$' : '',
   );
   final showPassword = false.obs;
   @override

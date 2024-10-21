@@ -9,31 +9,36 @@ class HomeView extends BaseView<HomeController> {
 
   @override
   PreferredSizeWidget? appBar(BuildContext context) {
-    return const CustomAppBar(
+    return CustomAppBar(
       appBarTitleText: 'GetX Templates on GitHub',
+      actions: [
+        // login button
+        ElevatedButton(
+          onPressed: controller.goToLoginPage,
+          child: const Text('Log in'),
+        ),
+      ],
     );
   }
 
   @override
   Widget body(BuildContext context) {
-    return Obx(
-      () => PagedListView<int, ProductList>(
-        pagingController: controller.pagingController.value,
-        shrinkWrap: true,
-        builderDelegate: PagedChildBuilderDelegate<ProductList>(
-          itemBuilder: (context, item, index) {
-            return _buildCardView(
-              element: item,
-              index: index,
-              context: context,
-            );
-          },
-          newPageErrorIndicatorBuilder: (context) {
-            return ListRetryView(
-              onRetry: controller.pagingController.value.retryLastFailedRequest,
-            );
-          },
-        ),
+    return PagedListView<int, ProductList>(
+      pagingController: controller.pagingController.value,
+      shrinkWrap: true,
+      builderDelegate: PagedChildBuilderDelegate<ProductList>(
+        itemBuilder: (context, item, index) {
+          return _buildCardView(
+            element: item,
+            index: index,
+            context: context,
+          );
+        },
+        newPageErrorIndicatorBuilder: (context) {
+          return ListRetryView(
+            onRetry: controller.pagingController.value.retryLastFailedRequest,
+          );
+        },
       ),
     );
   }

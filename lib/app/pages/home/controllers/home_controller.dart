@@ -68,4 +68,8 @@ class HomeController extends BaseController {
     pagingController.value.refresh();
     await _initializePagingController();
   }
+
+  void goToLoginPage() {
+    Get.toNamed(Routes.login);
+  }
 }

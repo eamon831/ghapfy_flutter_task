@@ -40,7 +40,7 @@ class Services {
     required String username,
     required String password,
   }) async {
-    const endPoint = 'login';
+    const endPoint = 'auth/login';
     try {
       final data = {
         'username': username,
