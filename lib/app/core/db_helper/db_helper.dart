@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:getx_template/app/core/utils/parser.dart';
+import 'package:getx_template/app/entity/cart.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -226,5 +227,64 @@ class DbHelper {
       return result.toList();
     }
     return [];
+  }
+
+  Future<bool> addItemToCart(Cart cart) async {
+    try {
+      final db = await instance.database;
+
+      if (db == null) {
+        if (kDebugMode) {
+          print('Database instance is null');
+        }
+        return false;
+      }
+
+      // Prepare query condition based on whether variationId is null or not
+      String whereClause;
+      List<dynamic> whereArgs;
+
+      whereClause = 'productId == ?';
+      whereArgs = [cart.productId, cart.productId];
+
+      // Check if the product with the variation already exists in the cart
+      final existingItems = await find(
+        tableCart,
+        whereClause,
+        whereArgs,
+      );
+
+      if (existingItems.isNotEmpty) {
+        final preQuantity = existingItems[0]['quantity'] ?? 0;
+        final updatedCart = cart.toJson()
+          ..['quantity'] = (cart.quantity ?? 0) + preQuantity
+          ..remove('productId') // Exclude non-updatable fields
+          ..removeWhere((key, value) => value == null); // Clean up null values
+
+        // Update the cart with the new quantity
+        await updateWhere(
+          tbl: tableCart,
+          data: updatedCart,
+          where: whereClause,
+          whereArgs: whereArgs,
+        );
+      } else {
+        // Insert a new item into the cart if it doesn't exist
+        final data = cart.toJson()..removeWhere((key, value) => value == null);
+        await insertList(
+          deleteBeforeInsert: false,
+          dataList: [data],
+          tableName: tableCart,
+        );
+      }
+
+      return true;
+    } catch (e, s) {
+      if (kDebugMode) {
+        print('Error adding item to cart: $e');
+        print('Stack trace: $s');
+      }
+      return false;
+    }
   }
 }
