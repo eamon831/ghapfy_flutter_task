@@ -71,6 +71,12 @@ class HomeView extends BaseView<HomeController> {
       ),
       child: Column(
         children: [
+          commonCachedNetworkImage(
+            element.image,
+            //width: 100,
+            fit: BoxFit.cover,
+          ),
+          8.height,
           Text(
             element.title ?? '',
             style: const TextStyle(
@@ -79,20 +85,24 @@ class HomeView extends BaseView<HomeController> {
             ),
           ),
           8.height,
-          Text(
-            element.description ?? '',
-            style: const TextStyle(
-              fontSize: 16,
-            ),
+          Row(
+            mainAxisAlignment: spaceBetweenMAA,
+            children: [
+              Text(
+                element.price.toString(),
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              // add to cart button
+              SelectiveButton(
+                onPressed: ()=> controller.addToCart(element),
+                color: Colors.green,
+                text: appLocalization.addToCart,
+                //isSelected: true,
+              ),
+            ],
           ),
-          8.height,
-          Text(
-            element.price.toString(),
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          
         ],
       ),
     );

@@ -19,7 +19,7 @@ class HomeController extends BaseController {
         );
       },
     );
-    _initializePagingController();
+    await _initializePagingController();
   }
 
   Future<void> _initializePagingController() async {
@@ -31,6 +31,8 @@ class HomeController extends BaseController {
     } finally {
       if (pagingController.value.itemList == null) {
         updatePageState(PageState.failed);
+      } else if (pagingController.value.itemList!.isEmpty) {
+        updatePageState(PageState.emptyList);
       } else {
         updatePageState(PageState.success);
       }
@@ -71,5 +73,9 @@ class HomeController extends BaseController {
 
   void goToLoginPage() {
     Get.toNamed(Routes.login);
+  }
+
+  addToCart(ProductList element) {
+    // Add to cart
   }
 }

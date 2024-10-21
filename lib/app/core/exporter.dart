@@ -1,5 +1,6 @@
 // global export file
 export 'dart:convert';
+
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ export 'core_model/logged_user.dart';
 export 'db_helper/db_helper.dart';
 // session manager
 export 'session_manager/session_manager.dart';
+export 'utils/common_cache_image_widget.dart';
 export 'utils/confirmation.dart';
 export 'utils/input_decoration.dart';
 // utils
@@ -39,7 +41,6 @@ export 'values/shorter_enum.dart';
 export 'values/text_styles.dart';
 export 'widget/app_bar_title.dart';
 export 'widget/asset_image_view.dart';
-export 'widget/common_cache_image_widget.dart';
 // widget
 export 'widget/custom_app_bar.dart';
 export 'widget/dialog_pattern.dart';

@@ -130,5 +130,6 @@
   "system": "সিস্টেম",
   "icon": "আইকন",
   "iconSize": "আইকন সাইজ",
-  "iconTheme": "আইকন থিম"
+  "iconTheme": "আইকন থিম",
+  "addToCart": "কার্টে যোগ করুন"
 }
