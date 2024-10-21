@@ -51,7 +51,7 @@ class LoginPageController extends BaseController {
     );
     if (isLogin ?? false) {
       await prefs.setBool(key: prefIsLogin, value: true);
-      Get.offAllNamed(Routes.home);
+      Get.offAllNamed(Routes.splashPage);
     }
   }
 }
