@@ -1,4 +1,5 @@
 import 'package:getx_template/app/core/exporter.dart';
+import 'package:getx_template/app/entity/cart.dart';
 import 'package:getx_template/app/entity/product_list.dart';
 
 class AddToCardModal extends StatefulWidget {
@@ -13,12 +14,11 @@ class AddToCardModal extends StatefulWidget {
 }
 
 class _AddToCardModalState extends State<AddToCardModal> {
-  final quantity = 0.obs;
+  final quantity = 1.obs;
   final dbHelper = DbHelper.instance;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(
       Duration.zero,
@@ -28,7 +28,16 @@ class _AddToCardModalState extends State<AddToCardModal> {
     );
   }
 
-  Future<void> _setPreQuantity() async {}
+  Future<void> _setPreQuantity() async {
+    final cart = await dbHelper.find(
+      tableCart,
+      'productId == ?',
+      [widget.productList.id],
+    );
+    if (cart.isNotEmpty) {
+      quantity.value = cart[0]['quantity'];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +77,14 @@ class _AddToCardModalState extends State<AddToCardModal> {
           ),
           Expanded(
             child: InkWell(
-              onTap: (){
-
+              onTap: () async {
+                final cart = Cart(
+                  productId: widget.productList.id,
+                  quantity: quantity.value,
+                  price: widget.productList.price,
+                );
+                await dbHelper.addItemToCart(cart);
+                Get.back();
               },
               child: Container(
                 padding: const EdgeInsets.all(8),

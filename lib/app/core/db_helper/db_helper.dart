@@ -245,7 +245,7 @@ class DbHelper {
       List<dynamic> whereArgs;
 
       whereClause = 'productId == ?';
-      whereArgs = [cart.productId, cart.productId];
+      whereArgs = [cart.productId,];
 
       // Check if the product with the variation already exists in the cart
       final existingItems = await find(
