@@ -124,12 +124,23 @@ class HomeController extends BaseController {
     );
     if (isCartAdded != null) {
       await dataFetcher(
-        future: () async {
-
-        },
+        future: () async {},
       );
     }
   }
 
   void goToCartPage() {}
+
+  Future<void> logout() async {
+    await dbHelper.deleteAll(tbl: tableCart);
+    await dbHelper.deleteAll(tbl: tableCartProduct);
+    await prefs.clear();
+    Get.offAllNamed(Routes.splashPage);
+  }
+
+  Future<void> clearCart() async {
+    await dbHelper.deleteAll(tbl: tableCart);
+    await dbHelper.deleteAll(tbl: tableCartProduct);
+    await cartController.getTotalCarts();
+  }
 }

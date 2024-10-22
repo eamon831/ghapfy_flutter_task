@@ -13,16 +13,21 @@ class HomeView extends BaseView<HomeController> {
       appBarTitleText: 'Home',
       actions: [
         // login button
+        if (controller.loggedUser.id == null)
+          ElevatedButton(
+            onPressed: controller.goToLoginPage,
+            child: const Text('Log in'),
+          ),
+        // logout button
+        if (controller.loggedUser.id != null)
+          ElevatedButton(
+            onPressed: controller.logout,
+            child: const Text('Log Out'),
+          ),
+        5.width,
         ElevatedButton(
-          onPressed: controller.goToLoginPage,
-          child: const Text('Log in'),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            await controller.dbHelper.deleteAll(tbl: tableCart);
-            await controller.dbHelper.deleteAll(tbl: tableCartProduct);
-          },
-          child: const Text('Log in'),
+          onPressed: controller.clearCart,
+          child: const Text('Clear Cart'),
         ),
       ],
     );

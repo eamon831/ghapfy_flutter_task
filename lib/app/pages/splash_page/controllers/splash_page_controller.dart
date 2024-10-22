@@ -17,6 +17,8 @@ class SplashPageController extends BaseController {
           print('Logged User: ${LoggedUser().toJson()}');
         }
       }
+    } else {
+      LoggedUser.fromJson({});
     }
     Get.offNamed(Routes.home);
   }
