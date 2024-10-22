@@ -89,7 +89,7 @@ class _AddToCardModalState extends State<AddToCardModal> {
                 Expanded(
                   child: InkWell(
                     onTap: () async {
-                      if (quantity.value == 0) {
+                     /* if (quantity.value == 0) {
                         toast('At least one quantity is required');
                         return;
                       }
@@ -101,7 +101,7 @@ class _AddToCardModalState extends State<AddToCardModal> {
                       await dbHelper.addItemToCart(cart);
                       final cartController = Get.find<CartController>();
                       await cartController.getTotalCarts();
-                      Get.back();
+                      Get.back();*/
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8),

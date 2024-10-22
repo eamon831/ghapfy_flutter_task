@@ -11,6 +11,7 @@ class HomeController extends BaseController {
     ),
   );
   final cartController = Get.find<CartController>();
+  final List<int> cartList = [];
 
   @override
   Future<void> onInit() async {
@@ -32,6 +33,25 @@ class HomeController extends BaseController {
       // so my plan is to fetch all the data at once and cache it in the local
       // database,then use the local database to paginate the data.each time 10
       // items will be fetched from the local database.
+
+      // first fetch the cart list
+      if (loggedUser.id != null) {
+        final cartList = await services.getCartList();
+
+        cartList?.forEach(
+          (element) {
+            element.products?.forEach(
+              (product) {
+                // cartController.addToCart(
+                //   product.productId,
+                //   product.quantity,
+                // );
+              },
+            );
+          },
+        );
+      }
+
       try {
         final apiDataList = await services.getProducts();
         final count = await dbHelper.getItemCount(
@@ -103,6 +123,5 @@ class HomeController extends BaseController {
     );
   }
 
-  void goToCartPage() {
-  }
+  void goToCartPage() {}
 }

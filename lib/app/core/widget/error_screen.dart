@@ -21,7 +21,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(
         0.85,
-      ), // this is the main reason of transparency at next screen. I am ignoring rest implementation but what i have achieved is you can see.
+      ),
       body: Center(
         child: Container(
           height: 300,

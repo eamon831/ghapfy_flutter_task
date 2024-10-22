@@ -154,23 +154,32 @@ class HomeView extends BaseView<HomeController> {
               color: Colors.white,
             ),
           ),
-          Obx(()=>Row(
-            children: [
-              Text(
-                controller.cartController.totalCartItem.value.toString(),
-                style: boldTextStyle(
-                  color: Colors.white,
+          Obx(
+            () => Row(
+              children: [
+                Text(
+                  controller.cartController.totalCartItem.value.toString(),
+                  style: boldTextStyle(
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              8.width,
-              Text(
-                controller.cartController.totalCartAmount.value.toString(),
-                style: boldTextStyle(
+                Container(
+                  height: 20,
+                  width: 1,
                   color: Colors.white,
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                  ),
                 ),
-              ),
-            ],
-          ),),
+                Text(
+                  controller.cartController.totalCartAmount.value.toString(),
+                  style: boldTextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

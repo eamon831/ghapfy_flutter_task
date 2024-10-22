@@ -1,4 +1,5 @@
 import 'package:getx_template/app/core/utils/parser.dart';
+import 'package:getx_template/app/entity/cart.dart';
 import 'package:getx_template/app/entity/product_list.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -144,6 +145,24 @@ class Services {
         list: responseData,
         fromJson: ProductList.fromJson,
       );
+    } catch (e, s) {
+      printError(e, s, endPoint);
+      rethrow;
+    }
+  }
+
+  Future<List?> getCartList() async {
+    const endPoint = 'carts/user/';
+    try {
+      final response = await dio.get(
+        APIType.public,
+        endPoint + LoggedUser().id.toString(),
+        headers: _buildHeader(),
+      );
+
+      final responseData = response.data as List?;
+      if (responseData == null) return null;
+      return responseData;
     } catch (e, s) {
       printError(e, s, endPoint);
       rethrow;

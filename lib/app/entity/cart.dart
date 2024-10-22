@@ -1,26 +1,60 @@
+import 'cart_product.dart';
+
 class Cart {
-  final num? productId;
-  final num? quantity;
-  final num? price;
+  final int userId;
+  final String date;
+  final List<CartProduct> products;
+
   Cart({
-    this.productId,
-    this.quantity,
-    this.price,
+    required this.userId,
+    required this.date,
+    required this.products,
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
+    final productsFromJson = json['products'] as List;
+    final productList = productsFromJson.map(
+      (item) {
+        return CartProduct.fromJson(item);
+      },
+    ).toList();
+
     return Cart(
-      productId: json['productId'],
-      quantity: json['quantity'],
-      price: json['price'],
+      userId: json['userId'],
+      date: json['date'],
+      products: productList,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['productId'] = productId;
-    data['quantity'] = quantity;
-    data['price'] = price;
-    return data;
+    return {
+      'userId': userId,
+      'date': date,
+      'products': products.map((product) => product.toJson()).toList(),
+    };
+  }
+}
+
+class CartProduct {
+  final num? productId;
+  final num? quantity;
+
+  CartProduct({
+    this.productId,
+    this.quantity,
+  });
+
+  factory CartProduct.fromJson(Map<String, dynamic> json) {
+    return CartProduct(
+      productId: json['productId'],
+      quantity: json['quantity'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productId': productId,
+      'quantity': quantity,
+    };
   }
 }
