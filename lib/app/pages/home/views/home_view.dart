@@ -135,7 +135,7 @@ class HomeView extends BaseView<HomeController> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.4),
+        color: Colors.white.withOpacity(0.4),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
@@ -148,35 +148,37 @@ class HomeView extends BaseView<HomeController> {
       child: Row(
         mainAxisAlignment: spaceBetweenMAA,
         children: [
-          Text(
-            appLocalization.cart,
-            style: boldTextStyle(
-              color: Colors.white,
-            ),
-          ),
-          Obx(
-            () => Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Total Unique Items ${controller.cartController.totalCartItem.value}',
-                  style: boldTextStyle(
-                    color: Colors.white,
+          Expanded(
+            flex: 2,
+            child: Obx(
+              () => Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: endMAA,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  LabelValue(
+                    label: 'Total Unique Items',
+                    value: controller.cartController.totalCartItem.value
+                        .toString(),
+                    labelFlex: 2,
+                    padding: EdgeInsets.zero,
                   ),
-                ),
-                Text(
-                  'Total Items ${controller.cartController.totalQuantity.value}',
-                  style: boldTextStyle(
-                    color: Colors.white,
+                  LabelValue(
+                    label: 'Total Items',
+                    value: controller.cartController.totalQuantity.value
+                        .toString(),
+                    labelFlex: 2,
+                    padding: EdgeInsets.zero,
                   ),
-                ),
-                Text(
-                  '${appLocalization.total}  ${controller.cartController.totalCartAmount.value.toString()}',
-                  style: boldTextStyle(
-                    color: Colors.white,
+                  LabelValue(
+                    label: appLocalization.total,
+                    value: controller.cartController.totalCartAmount.value
+                        .toString(),
+                    labelFlex: 2,
+                    padding: EdgeInsets.zero,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
