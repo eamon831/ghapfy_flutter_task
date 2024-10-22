@@ -10,6 +10,7 @@ export 'package:get/get.dart';
 export 'package:google_fonts/google_fonts.dart';
 export 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 export 'package:internet_connection_checker/internet_connection_checker.dart';
+export 'package:intl/intl.dart' hide TextDirection;
 export 'package:logger/logger.dart';
 
 export '/app/core/core_model/page_state.dart';
@@ -48,10 +49,9 @@ export 'widget/dialog_pattern.dart';
 export 'widget/elevated_container.dart';
 export 'widget/error_screen.dart';
 export 'widget/icon_text_widgets.dart';
+export 'widget/label_value.dart';
 export 'widget/list_retry_view.dart';
 export 'widget/loaders/loader_screen.dart';
 export 'widget/no_record_found_view.dart';
 export 'widget/retry_view.dart';
 export 'widget/selective_button.dart';
-
-export 'widget/label_value.dart';

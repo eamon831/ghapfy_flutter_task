@@ -256,14 +256,25 @@ class DbHelper {
         return false;
       }
 
-      // Insert the cart data and get the inserted cart ID
-      final cartId = await db.insert(
+      // check if we already a cart exist in current date
+      final result = await db.query(
         tableCart,
-        {
-          'userId': cart.userId,
-          'date': cart.date,
-        },
+        where: 'userId = ? AND date = ?',
+        whereArgs: [cart.userId, cart.date],
       );
+      int? cartId;
+      if (result.isNotEmpty) {
+        // If the cart already exists, update the cart ID
+        cartId = result.first['id'] as int;
+      } else {
+        cartId = await db.insert(
+          tableCart,
+          {
+            'userId': cart.userId,
+            'date': cart.date,
+          },
+        );
+      }
 
       // Insert or update CartProducts related to this cart
       for (final product in cart.products) {

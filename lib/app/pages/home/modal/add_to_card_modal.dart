@@ -95,7 +95,7 @@ class _AddToCardModalState extends State<AddToCardModal> {
                       }
                       final cart = Cart(
                         userId: LoggedUser().id!.toInt(),
-                        date: DateTime.now().toString(),
+                        date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
                         products: [
                           CartProduct(
                             productId: widget.productList.id,

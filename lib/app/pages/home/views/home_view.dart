@@ -17,6 +17,13 @@ class HomeView extends BaseView<HomeController> {
           onPressed: controller.goToLoginPage,
           child: const Text('Log in'),
         ),
+        ElevatedButton(
+          onPressed: () async {
+            await controller.dbHelper.deleteAll(tbl: tableCart);
+            await controller.dbHelper.deleteAll(tbl: tableCartProduct);
+          },
+          child: const Text('Log in'),
+        ),
       ],
     );
   }
