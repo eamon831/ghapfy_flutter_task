@@ -13,7 +13,7 @@ class SplashPageController extends BaseController {
       final userData = await prefs.getString(prefUser);
       if (userData != null) {
         LoggedUser.fromJson(jsonDecode(userData));
-        if(kDebugMode){
+        if (kDebugMode) {
           print('Logged User: ${LoggedUser().toJson()}');
         }
       }

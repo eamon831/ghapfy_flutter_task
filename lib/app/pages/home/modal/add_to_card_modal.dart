@@ -32,7 +32,7 @@ class _AddToCardModalState extends State<AddToCardModal> {
 
   Future<void> _setPreQuantity() async {
     final cart = await dbHelper.find(
-      tableCart,
+      tableCartProduct,
       'productId == ?',
       [widget.productList.id],
     );
@@ -89,19 +89,24 @@ class _AddToCardModalState extends State<AddToCardModal> {
                 Expanded(
                   child: InkWell(
                     onTap: () async {
-                     /* if (quantity.value == 0) {
+                      if (quantity.value == 0) {
                         toast('At least one quantity is required');
                         return;
                       }
                       final cart = Cart(
-                        productId: widget.productList.id,
-                        quantity: quantity.value,
-                        price: widget.productList.price,
+                        userId: LoggedUser().id!.toInt(),
+                        date: DateTime.now().toString(),
+                        products: [
+                          CartProduct(
+                            productId: widget.productList.id,
+                            quantity: quantity.value,
+                          ),
+                        ],
                       );
                       await dbHelper.addItemToCart(cart);
                       final cartController = Get.find<CartController>();
                       await cartController.getTotalCarts();
-                      Get.back();*/
+                      Get.back();
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8),

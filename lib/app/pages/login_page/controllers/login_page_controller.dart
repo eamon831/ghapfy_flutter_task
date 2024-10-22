@@ -38,7 +38,7 @@ class LoginPageController extends BaseController {
       return;
     }
 
-    if(!formKey.currentState!.validate()) return;
+    if (!formKey.currentState!.validate()) return;
 
     bool? isLogin;
     await dataFetcher(

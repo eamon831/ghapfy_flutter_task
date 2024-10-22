@@ -9,17 +9,21 @@ class CartController extends BaseController {
 
   final test = false.obs;
   final totalCartItem = 0.obs;
+  final totalQuantity = 0.obs;
   final totalCartAmount = 0.0.obs;
 
   Future<void> getTotalCarts() async {
     try {
       final data = await dbHelper.getTotalCountANdSum();
-      if(kDebugMode){
+      if (kDebugMode) {
         logger.i(data);
       }
 
-      totalCartItem.value = int.tryParse(data[0]['count'].toString()) ?? 0;
-      totalCartAmount.value = double.tryParse(data[0]['total'].toString()) ?? 0;
+      totalCartItem.value = int.tryParse(data[0]['totalItems'].toString()) ?? 0;
+      totalQuantity.value =
+          int.tryParse(data[0]['totalQuantity'].toString()) ?? 0;
+      totalCartAmount.value =
+          double.tryParse(data[0]['totalPrice'].toString()) ?? 0;
     } catch (e, s) {
       if (kDebugMode) {
         print(e);

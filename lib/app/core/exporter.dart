@@ -36,6 +36,7 @@ export 'values/app_assets.dart';
 export 'values/app_colors.dart';
 export 'values/app_strings.dart';
 export 'values/app_values.dart';
+export 'values/default_font_weight.dart';
 export 'values/final_values.dart';
 export 'values/shorter_enum.dart';
 export 'values/text_styles.dart';
@@ -52,3 +53,5 @@ export 'widget/loaders/loader_screen.dart';
 export 'widget/no_record_found_view.dart';
 export 'widget/retry_view.dart';
 export 'widget/selective_button.dart';
+
+export 'widget/label_value.dart';

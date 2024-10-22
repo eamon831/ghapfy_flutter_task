@@ -155,24 +155,23 @@ class HomeView extends BaseView<HomeController> {
             ),
           ),
           Obx(
-            () => Row(
+            () => Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  controller.cartController.totalCartItem.value.toString(),
+                  'Total Unique Items ${controller.cartController.totalCartItem.value}',
                   style: boldTextStyle(
                     color: Colors.white,
                   ),
                 ),
-                Container(
-                  height: 20,
-                  width: 1,
-                  color: Colors.white,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 8,
+                Text(
+                  'Total Items ${controller.cartController.totalQuantity.value}',
+                  style: boldTextStyle(
+                    color: Colors.white,
                   ),
                 ),
                 Text(
-                  controller.cartController.totalCartAmount.value.toString(),
+                  '${appLocalization.total}  ${controller.cartController.totalCartAmount.value.toString()}',
                   style: boldTextStyle(
                     color: Colors.white,
                   ),

@@ -233,9 +233,15 @@ class DbHelper {
     String? tableName,
   }) async {
     final db = await instance.database;
-    final result = await db!.rawQuery(
-      'SELECT COUNT(productId) AS count, ROUND(SUM(price * quantity), 2) AS total FROM cart'
-    );
+    final result = await db!.rawQuery('''
+    SELECT 
+      COUNT(DISTINCT cp.productId) AS totalItems, 
+      SUM(cp.quantity) AS totalQuantity, 
+      ROUND(SUM(cp.quantity * p.price), 2) AS totalPrice
+    FROM $tableCartProduct cp
+    JOIN $tableProducts p ON cp.productId = p.id
+  ''');
+
     return result;
   }
 
@@ -250,44 +256,44 @@ class DbHelper {
         return false;
       }
 
-      // Prepare query condition based on whether variationId is null or not
-      String whereClause;
-      List<dynamic> whereArgs;
-
-      whereClause = 'productId == ?';
-      whereArgs = [
-        cart.productId,
-      ];
-
-      // Check if the product with the variation already exists in the cart
-      final existingItems = await find(
+      // Insert the cart data and get the inserted cart ID
+      final cartId = await db.insert(
         tableCart,
-        whereClause,
-        whereArgs,
+        {
+          'userId': cart.userId,
+          'date': cart.date,
+        },
       );
 
-      if (existingItems.isNotEmpty) {
-        final preQuantity = existingItems[0]['quantity'] ?? 0;
-        final updatedCart = cart.toJson()
-          ..['quantity'] = (cart.quantity ?? 0)
-          ..remove('productId') // Exclude non-updatable fields
-          ..removeWhere((key, value) => value == null); // Clean up null values
+      // Insert or update CartProducts related to this cart
+      for (final product in cart.products) {
+        // Check if the product already exists in the CartProduct table
+        final result = await db.query(
+          tableCartProduct,
+          where: 'cartId = ? AND productId = ?',
+          whereArgs: [cartId, product.productId],
+        );
 
-        // Update the cart with the new quantity
-        await updateWhere(
-          tbl: tableCart,
-          data: updatedCart,
-          where: whereClause,
-          whereArgs: whereArgs,
-        );
-      } else {
-        // Insert a new item into the cart if it doesn't exist
-        final data = cart.toJson()..removeWhere((key, value) => value == null);
-        await insertList(
-          deleteBeforeInsert: false,
-          dataList: [data],
-          tableName: tableCart,
-        );
+        if (result.isNotEmpty) {
+          await db.update(
+            tableCartProduct,
+            {
+              'quantity': product.quantity,
+            },
+            where: 'cartId = ? AND productId = ?',
+            whereArgs: [cartId, product.productId],
+          );
+        } else {
+          // If the product doesn't exist, insert it as a new entry
+          await db.insert(
+            tableCartProduct,
+            {
+              'cartId': cartId,
+              'productId': product.productId,
+              'quantity': product.quantity,
+            },
+          );
+        }
       }
 
       return true;

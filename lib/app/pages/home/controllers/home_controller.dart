@@ -1,6 +1,7 @@
 import 'package:getx_template/app/entity/product_list.dart';
 import 'package:getx_template/app/global_controller/cart_controller.dart';
 import 'package:getx_template/app/pages/home/modal/add_to_card_modal.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 import '/app/core/exporter.dart';
 
@@ -37,19 +38,6 @@ class HomeController extends BaseController {
       // first fetch the cart list
       if (loggedUser.id != null) {
         final cartList = await services.getCartList();
-
-        cartList?.forEach(
-          (element) {
-            element.products?.forEach(
-              (product) {
-                // cartController.addToCart(
-                //   product.productId,
-                //   product.quantity,
-                // );
-              },
-            );
-          },
-        );
       }
 
       try {
@@ -111,6 +99,10 @@ class HomeController extends BaseController {
   }
 
   Future<void> addToCart(ProductList element) async {
+    if (loggedUser.id == null) {
+      toast('Please login to add to cart');
+      return;
+    }
     // Add to cart
     await Get.dialog(
       DialogPattern(
