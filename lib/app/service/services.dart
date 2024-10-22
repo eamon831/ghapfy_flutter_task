@@ -126,7 +126,7 @@ class Services {
       }
     } catch (e, s) {
       printError(e, s, endPoint);
-      rethrow;
+      return null;
     }
   }
 
@@ -147,7 +147,7 @@ class Services {
       );
     } catch (e, s) {
       printError(e, s, endPoint);
-      rethrow;
+      return null;
     }
   }
 
@@ -168,7 +168,28 @@ class Services {
       );
     } catch (e, s) {
       printError(e, s, endPoint);
-      rethrow;
+      return null;
+    }
+  }
+
+  Future<Cart?> addItemToCart(Cart cart) async {
+    const endPoint = 'carts';
+    try {
+      final response = await dio.post(
+        APIType.public,
+        endPoint,
+        cart.toJson(),
+        headers: _buildHeader(),
+      );
+
+      final responseData = response.data as Map<String, dynamic>?;
+      if (responseData == null) {
+        return null;
+      }
+      return Cart.fromJson(responseData);
+    } catch (e, s) {
+      printError(e, s, endPoint);
+      return null;
     }
   }
 }

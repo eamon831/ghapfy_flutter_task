@@ -1,3 +1,4 @@
+import 'package:getx_template/app/entity/cart.dart';
 import 'package:getx_template/app/entity/product_list.dart';
 import 'package:getx_template/app/global_controller/cart_controller.dart';
 import 'package:getx_template/app/pages/home/modal/add_to_card_modal.dart';
@@ -35,15 +36,25 @@ class HomeController extends BaseController {
       // database,then use the local database to paginate the data.each time 10
       // items will be fetched from the local database.
 
-      // first fetch the cart list
-      if (loggedUser.id != null) {
-        final apiCartList = await services.getCartList();
-        if (apiCartList != null) {}
-      }
-
       try {
-        final apiDataList = await services.getProducts();
+        // first fetch the cart list
+        if (loggedUser.id != null) {
+          final apiCartList = await services.getCartList();
+          if (apiCartList != null) {
+            await dbHelper.deleteAll(tbl: tableCart);
+            await dbHelper.deleteAll(tbl: tableCartProduct);
 
+            await Future.forEach<Cart>(
+              apiCartList,
+              (element) async {
+                await dbHelper.addItemToCart(element);
+              },
+            );
+            await cartController.getTotalCarts();
+          }
+        }
+
+        final apiDataList = await services.getProducts();
         await dbHelper.insertList(
           deleteBeforeInsert: true,
           tableName: tableProducts,
@@ -102,7 +113,7 @@ class HomeController extends BaseController {
       return;
     }
     // Add to cart
-    await Get.dialog(
+    final isCartAdded = await Get.dialog(
       DialogPattern(
         title: appLocalization.addToCart,
         subTitle: '',
@@ -111,6 +122,13 @@ class HomeController extends BaseController {
         ),
       ),
     );
+    if (isCartAdded != null) {
+      await dataFetcher(
+        future: () async {
+
+        },
+      );
+    }
   }
 
   void goToCartPage() {}

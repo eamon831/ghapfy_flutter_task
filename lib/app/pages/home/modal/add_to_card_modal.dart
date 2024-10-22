@@ -37,7 +37,7 @@ class _AddToCardModalState extends State<AddToCardModal> {
       [widget.productList.id],
     );
     if (cart.isNotEmpty) {
-      quantity.value = cart[0]['quantity'];
+      quantity.value = cart.map((e) => e['quantity']).reduce((a, b) => a + b);
     }
   }
 
@@ -88,26 +88,7 @@ class _AddToCardModalState extends State<AddToCardModal> {
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () async {
-                      if (quantity.value == 0) {
-                        toast('At least one quantity is required');
-                        return;
-                      }
-                      final cart = Cart(
-                        userId: LoggedUser().id!.toInt(),
-                        date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                        products: [
-                          CartProduct(
-                            productId: widget.productList.id,
-                            quantity: quantity.value,
-                          ),
-                        ],
-                      );
-                      await dbHelper.addItemToCart(cart);
-                      final cartController = Get.find<CartController>();
-                      await cartController.getTotalCarts();
-                      Get.back();
-                    },
+                    onTap: _addToCart,
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       margin: const EdgeInsets.all(16),
@@ -130,5 +111,45 @@ class _AddToCardModalState extends State<AddToCardModal> {
         ],
       ),
     );
+  }
+
+  Future<void> _addToCart() async {
+    try {
+      if (quantity.value == 0) {
+        toast('At least one quantity is required');
+        return;
+      }
+      final date = DateFormat('yyyy-MM-dd').format(
+        DateTime.now(),
+      );
+
+      final cart = Cart(
+        id: 0,
+        userId: LoggedUser().id!.toInt(),
+        date: date,
+        products: [
+          CartProduct(
+            productId: widget.productList.id,
+            quantity: quantity.value,
+          ),
+        ],
+      );
+      try {
+        final services = Services();
+        final data = await services.addItemToCart(cart);
+        if (data != null) {
+          await dbHelper.addItemToCart(data);
+        } else {
+          await dbHelper.addItemToCart(cart);
+        }
+        final cartController = Get.find<CartController>();
+        await cartController.getTotalCarts();
+        Get.back(
+          result: {},
+        );
+      } catch (e) {}
+    } catch (e) {
+      toast('Failed to add to cart');
+    }
   }
 }

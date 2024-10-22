@@ -1,11 +1,13 @@
 import 'cart_product.dart';
 
 class Cart {
+  final int id;
   final int userId;
   final String date;
   final List<CartProduct> products;
 
   Cart({
+    required this.id,
     required this.userId,
     required this.date,
     required this.products,
@@ -20,6 +22,7 @@ class Cart {
     ).toList();
 
     return Cart(
+      id: json['id'],
       userId: json['userId'],
       date: json['date'],
       products: productList,
@@ -28,6 +31,7 @@ class Cart {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'userId': userId,
       'date': date,
       'products': products.map((product) => product.toJson()).toList(),
