@@ -144,56 +144,79 @@ class HomeView extends BaseView<HomeController> {
 
   @override
   Widget bottomNavigationBar() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.4),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: spaceBetweenMAA,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Obx(
-              () => Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: endMAA,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  LabelValue(
-                    label: 'Total Unique Items',
-                    value: controller.cartController.totalCartItem.value
-                        .toString(),
-                    labelFlex: 2,
-                    padding: EdgeInsets.zero,
-                  ),
-                  LabelValue(
-                    label: 'Total Items',
-                    value: controller.cartController.totalQuantity.value
-                        .toString(),
-                    labelFlex: 2,
-                    padding: EdgeInsets.zero,
-                  ),
-                  LabelValue(
-                    label: appLocalization.total,
-                    value: controller.cartController.totalCartAmount.value
-                        .toString(),
-                    labelFlex: 2,
-                    padding: EdgeInsets.zero,
-                  ),
-                ],
+    return InkWell(
+      onTap: controller.goToCartPage,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.4),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: spaceBetweenMAA,
+          children: [
+            Expanded(
+              flex: 3,
+              child: Obx(
+                () => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: endMAA,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    LabelValue(
+                      label: 'Total Unique Items',
+                      value: controller.cartController.totalCartItem.value
+                          .toString(),
+                      labelFlex: 2,
+                      padding: EdgeInsets.zero,
+                    ),
+                    LabelValue(
+                      label: 'Total Items',
+                      value: controller.cartController.totalQuantity.value
+                          .toString(),
+                      labelFlex: 2,
+                      padding: EdgeInsets.zero,
+                    ),
+                    LabelValue(
+                      label: appLocalization.total,
+                      value: controller.cartController.totalCartAmount.value
+                          .toString(),
+                      labelFlex: 2,
+                      padding: EdgeInsets.zero,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  borderRadius: BorderRadius.circular(
+                    AppValues.containerBorderRadius,
+                  ),
+                ),
+
+                child: const Text(
+                  'Go to Cart',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

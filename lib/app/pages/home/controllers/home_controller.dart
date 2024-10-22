@@ -129,7 +129,9 @@ class HomeController extends BaseController {
     }
   }
 
-  void goToCartPage() {}
+  void goToCartPage() {
+    Get.toNamed(Routes.cartListPage);
+  }
 
   Future<void> logout() async {
     await dbHelper.deleteAll(tbl: tableCart);

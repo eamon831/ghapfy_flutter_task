@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import '/app/pages/cart_list_page/bindings/cart_list_page_binding.dart';
+import '/app/pages/cart_list_page/views/cart_list_page_view.dart';
 
 import '/app/pages/home/bindings/home_binding.dart';
 import '/app/pages/home/views/home_view.dart';
@@ -29,6 +31,11 @@ class AppPages {
       name: Routes.splashPage,
       page: SplashPageView.new,
       binding: SplashPageBinding(),
+    ),
+    GetPage(
+      name: Routes.cartListPage,
+      page: CartListPageView.new,
+      binding: CartListPageBinding(),
     ),
   ];
 }

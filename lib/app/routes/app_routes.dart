@@ -6,10 +6,12 @@ abstract class Routes {
   static const splashPage = _Paths.splashPage;
   static const home = _Paths.home;
   static const login = _Paths.login;
+  static const cartListPage = _Paths.cartListPage;
 }
 
 abstract class _Paths {
   static const splashPage = '/splashPage';
   static const home = '/home';
+  static const cartListPage = '/cartListPage';
   static const login = '/login';
 }
