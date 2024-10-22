@@ -229,6 +229,17 @@ class DbHelper {
     return [];
   }
 
+  Future<List> setOfColumns(String tbl, String column) async {
+    final Database? db = await instance.database;
+    if (db != null) {
+      final result = await db.rawQuery('''
+  SELECT DISTINCT $column FROM $tbl;
+  ''');
+      return result.toList();
+    }
+    return [];
+  }
+
   Future<List<Map<String, Object?>>> getTotalCountANdSum({
     String? tableName,
   }) async {

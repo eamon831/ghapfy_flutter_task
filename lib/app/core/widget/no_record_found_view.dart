@@ -10,10 +10,11 @@ class NoRecordFoundView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
       decoration: const BoxDecoration(
-        color: Colors.red,
+        color: Colors.transparent,
       ),
+      width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
