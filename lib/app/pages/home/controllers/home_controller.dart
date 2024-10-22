@@ -37,14 +37,12 @@ class HomeController extends BaseController {
 
       // first fetch the cart list
       if (loggedUser.id != null) {
-        final cartList = await services.getCartList();
+        final apiCartList = await services.getCartList();
+        if (apiCartList != null) {}
       }
 
       try {
         final apiDataList = await services.getProducts();
-        final count = await dbHelper.getItemCount(
-          tableName: tableProducts,
-        );
 
         await dbHelper.insertList(
           deleteBeforeInsert: true,

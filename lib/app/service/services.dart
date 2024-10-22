@@ -151,7 +151,7 @@ class Services {
     }
   }
 
-  Future<List?> getCartList() async {
+  Future<List<Cart>?> getCartList() async {
     const endPoint = 'carts/user/';
     try {
       final response = await dio.get(
@@ -162,7 +162,10 @@ class Services {
 
       final responseData = response.data as List?;
       if (responseData == null) return null;
-      return responseData;
+      return parseList(
+        list: responseData,
+        fromJson: Cart.fromJson,
+      );
     } catch (e, s) {
       printError(e, s, endPoint);
       rethrow;
