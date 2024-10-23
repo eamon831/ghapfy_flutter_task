@@ -14,22 +14,30 @@ class HomeView extends BaseView<HomeController> {
       actions: [
         // login button
         if (controller.loggedUser.id == null)
-          ElevatedButton(
+          SelectiveButton(
             onPressed: controller.goToLoginPage,
-            child: const Text('Log in'),
+            text: 'Log in',
           ),
         // logout button
         if (controller.loggedUser.id != null)
-          ElevatedButton(
+          SelectiveButton(
             onPressed: controller.logout,
-            child: const Text('Log Out'),
+            text: 'Log Out',
           ),
         5.width,
-        ElevatedButton(
+        SelectiveButton(
           onPressed: () => controller.cartController.clearCart(
             showConfirmation: true,
           ),
-          child: const Text('Clear Cart'),
+          text: 'Clear Cart',
+        ),
+        5.width,
+        SelectiveButton(
+          onPressed: () => controller.clearProduct(
+            showConfirmation: true,
+          ),
+          text: 'Clear Product',
+          isSelected: true,
         ),
       ],
     );

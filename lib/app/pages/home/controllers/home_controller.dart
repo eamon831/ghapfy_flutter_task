@@ -37,16 +37,21 @@ class HomeController extends BaseController {
 
       try {
         // first fetch the cart list
-        if (loggedUser.id != null) {
-          await cartController.updateCartList();
+        if (await hasInternet()) {
+          if (loggedUser.id != null) {
+            try {
+              await cartController.updateCartList();
+            } catch (e) {
+              // TODO
+            }
+          }
+          final apiDataList = await services.getProducts();
+          await dbHelper.insertList(
+            deleteBeforeInsert: true,
+            tableName: tableProducts,
+            dataList: apiDataList?.map((e) => e.toJson()).toList() ?? [],
+          );
         }
-
-        final apiDataList = await services.getProducts();
-        await dbHelper.insertList(
-          deleteBeforeInsert: true,
-          tableName: tableProducts,
-          dataList: apiDataList?.map((e) => e.toJson()).toList() ?? [],
-        );
       } catch (e) {
         // TODO
       }
@@ -113,5 +118,12 @@ class HomeController extends BaseController {
     await Get.offAllNamed(
       Routes.splashPage,
     );
+  }
+
+  Future<void> clearProduct({
+    required bool showConfirmation,
+  }) async {
+    await dbHelper.deleteAll(tbl: tableProducts);
+    await refreshData();
   }
 }

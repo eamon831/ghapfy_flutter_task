@@ -27,71 +27,64 @@ class SelectiveButton extends StatelessWidget {
     super.key,
     this.text,
     this.isSelected = false,
-    this.color = Colors.transparent,
+    this.color = AppColors.buttonBgColor,
     this.textColor,
     this.width,
     this.height,
     this.fontSize,
     this.fontWeight,
-    this.borderRadius,
+    this.borderRadius = 4,
     this.elevation,
-    this.padding,
+    this.padding = 6,
     this.margin,
     this.borderWidth,
-    this.borderColor,
+    this.borderColor = Colors.black,
     this.icon,
     this.iconSize,
     this.iconColor = Colors.black,
-    this.iconPadding,
+    this.iconPadding = 10,
     this.iconMargin,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(
-          isSelected ? color! : Colors.transparent,
-        ),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? 0),
-            side: BorderSide(
-              color: borderColor ?? Colors.transparent,
-              width: borderWidth ?? 0,
-            ),
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        padding: EdgeInsets.all(padding ?? 0),
+        margin: EdgeInsets.all(margin ?? 0),
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: isSelected ? color : Colors.transparent,
+          borderRadius: BorderRadius.circular(borderRadius ?? 0),
+          border: Border.all(
+            color: borderColor ?? Colors.transparent,
+            width: borderWidth ?? 0,
           ),
         ),
-        elevation: MaterialStateProperty.all<double>(elevation ?? 0),
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-          EdgeInsets.all(padding ?? 0),
-        ),
-        minimumSize: MaterialStateProperty.all<Size>(
-          Size(width ?? 0, height ?? 0),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon != null)
-            Padding(
-              padding: EdgeInsets.only(right: iconPadding ?? 0),
-              child: Icon(
-                icon,
-                size: iconSize ?? 0,
-                color: iconColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null)
+              Padding(
+                padding: EdgeInsets.only(right: iconPadding ?? 0),
+                child: Icon(
+                  icon,
+                  size: iconSize ?? 24,
+                  color: iconColor,
+                ),
+              ),
+            Text(
+              text ?? '',
+              style: TextStyle(
+                color: isSelected ? textColor : Colors.black,
+                fontSize: fontSize,
+                fontWeight: fontWeight,
               ),
             ),
-          Text(
-            text ?? '',
-            style: TextStyle(
-              color: isSelected ? textColor : Colors.black,
-              fontSize: fontSize,
-              fontWeight: fontWeight,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

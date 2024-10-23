@@ -21,7 +21,10 @@ class RetryView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('Failed to load data'),
+          const Text(
+            'Failed to load data',
+            style: errorTextStyle,
+          ),
           ElevatedButton(
             onPressed: onRetry,
             child: const Text('Retry'),

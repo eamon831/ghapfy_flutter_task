@@ -18,11 +18,21 @@ class NoRecordFoundView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('No record found'),
+          const Text(
+            'No record found',
+            style: errorTextStyle,
+          ),
           if (onRetry != null)
-            ElevatedButton(
+            SelectiveButton(
               onPressed: onRetry,
-              child: const Text('Retry'),
+              text: 'Retry',
+              icon: TablerIcons.refresh_dot,
+              iconColor: Colors.red,
+              color: Colors.transparent,
+              padding: 10,
+              isSelected: true,
+              width: 100,
+              margin: 20,
             ),
         ],
       ),
