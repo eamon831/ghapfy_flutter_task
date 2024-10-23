@@ -46,6 +46,9 @@ class HomeController extends BaseController {
             }
           }
           final apiDataList = await services.getProducts();
+
+          // there is a corner case remain, that at least i have cached the data
+          // one time
           await dbHelper.insertList(
             deleteBeforeInsert: true,
             tableName: tableProducts,
