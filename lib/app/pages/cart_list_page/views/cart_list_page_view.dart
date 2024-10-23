@@ -30,9 +30,7 @@ class CartListPageView extends BaseView<CartListPageController> {
           subtitle: Text(product.price.toString()),
           trailing: IconButton(
             icon: const Icon(Icons.delete),
-            onPressed: () {
-              // controller.cartController.removeFromCart(product);
-            },
+            onPressed: ()=> controller.removeCartItem(product),
           ),
         );
       },

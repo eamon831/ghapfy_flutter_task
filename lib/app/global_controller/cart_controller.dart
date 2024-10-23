@@ -1,3 +1,5 @@
+import 'package:getx_template/app/entity/product_list.dart';
+
 import '/app/core/exporter.dart';
 
 class CartController extends BaseController {
@@ -31,4 +33,5 @@ class CartController extends BaseController {
       }
     }
   }
+
 }

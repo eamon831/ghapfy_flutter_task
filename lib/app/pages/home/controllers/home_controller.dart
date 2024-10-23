@@ -130,6 +130,10 @@ class HomeController extends BaseController {
   }
 
   void goToCartPage() {
+    if (loggedUser.id == null) {
+      toast('Please login to view cart');
+      return;
+    }
     Get.toNamed(Routes.cartListPage);
   }
 

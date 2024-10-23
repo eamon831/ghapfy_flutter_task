@@ -192,4 +192,24 @@ class Services {
       return null;
     }
   }
+
+  Future<Cart?> deleteItemFromCart(int cartId) async {
+    const endPoint = 'carts/';
+    try {
+      final response = await dio.delete(
+        APIType.public,
+        endPoint + cartId.toString(),
+        headers: _buildHeader(),
+      );
+
+      final responseData = response.data as Map<String, dynamic>?;
+      if (responseData == null) {
+        return null;
+      }
+      return Cart.fromJson(responseData);
+    } catch (e, s) {
+      printError(e, s, endPoint);
+      return null;
+    }
+  }
 }
