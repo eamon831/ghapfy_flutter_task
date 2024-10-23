@@ -1,3 +1,5 @@
+import 'package:getx_template/app/pages/home/controllers/home_controller.dart';
+
 import '/app/core/exporter.dart';
 
 class SplashPageController extends BaseController {
@@ -14,12 +16,13 @@ class SplashPageController extends BaseController {
       if (userData != null) {
         LoggedUser.fromJson(jsonDecode(userData));
         if (kDebugMode) {
-          print('Logged User: ${LoggedUser().toJson()}');
+          //print('Logged User: ${LoggedUser().toJson()}');
         }
       }
     } else {
       LoggedUser.fromJson({});
     }
-    Get.offNamed(Routes.home);
+
+    Get.offAllNamed(Routes.home);
   }
 }

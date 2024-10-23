@@ -253,9 +253,9 @@ abstract class BaseController extends GetxController {
 
   @override
   void onClose() {
-    _messageController.close();
-    _refreshController.close();
-    _pageSateController.close();
+   // _messageController.close();
+    // _refreshController.close();
+    // _pageSateController.close();
     super.onClose();
   }
 }

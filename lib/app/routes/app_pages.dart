@@ -18,7 +18,7 @@ class AppPages {
 
   static final routes = [
     GetPage(
-      name: Routes.login,
+      name: _Paths.login,
       page: LoginPageView.new,
       binding: LoginPageBinding(),
     ),
@@ -28,12 +28,12 @@ class AppPages {
       binding: HomeBinding(),
     ),
     GetPage(
-      name: Routes.splashPage,
+      name: _Paths.splashPage,
       page: SplashPageView.new,
       binding: SplashPageBinding(),
     ),
     GetPage(
-      name: Routes.cartListPage,
+      name: _Paths.cartListPage,
       page: CartListPageView.new,
       binding: CartListPageBinding(),
     ),

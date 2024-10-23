@@ -110,6 +110,8 @@ class HomeController extends BaseController {
       showConfirmation: false,
     );
     await prefs.clear();
-    Get.offAllNamed(Routes.splashPage);
+    await Get.offAllNamed(
+      Routes.splashPage,
+    );
   }
 }
