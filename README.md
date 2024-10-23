@@ -38,6 +38,24 @@ then run the project from the terminal by running the command "flutter run  lib/
 # State Management
 This project uses **GetX** for state management. The relevant files are located in the `lib/app/core/base` directory:
 
+# Project Structure
+- **app**: Contains the main app 
+- **app/core**: Contains the core functionality of the app.
+- **app/core/base**: Contains the base classes for the app.
+- **app/core/core_model**: Contains the core models for the app.
+- **app/core/db_helper**: Contains the database helper class for the app.
+- **app/core/session_manger**: Contains the session manager class for the app.
+- **app/core/utils**: Contains the utility classes for the app.
+- **app/core/values**: Contains the values classes for the app.
+- **app/core/widget**: Contains the core widget classes for the app.
+- **app/exporter**: Contains the central export file for the app.
+- **app/routes**: Contains the routes for the app.
+- **app/pages**: Contains the pages for the app.
+- **app/services**: Contains the services for the app with api calls.
+- **app/entity**: Contains the entities for the app.
+- **app/bindings**: Contains the GetX bindings for the app.
+
+
 ## Libraries Used
 
 - **[get](https://pub.dev/packages/get)**: State management library for Flutter with a focus on simplicity and performance.
