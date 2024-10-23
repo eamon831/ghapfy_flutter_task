@@ -26,7 +26,9 @@ class HomeView extends BaseView<HomeController> {
           ),
         5.width,
         ElevatedButton(
-          onPressed: controller.cartController.clearCart,
+          onPressed: () => controller.cartController.clearCart(
+            showConfirmation: true,
+          ),
           child: const Text('Clear Cart'),
         ),
       ],

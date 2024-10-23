@@ -103,7 +103,12 @@ class HomeController extends BaseController {
   }
 
   Future<void> logout() async {
-    await cartController.clearCart();
+    final confirm = await confirmationModal(msg: appLocalization.confirm);
+    if (!confirm) return;
+
+    await cartController.clearCart(
+      showConfirmation: false,
+    );
     await prefs.clear();
     Get.offAllNamed(Routes.splashPage);
   }

@@ -46,14 +46,19 @@ class CartListPageController extends BaseController {
   }
 
   Future<void> clearCart() async {
-    final isClear = await cartController.clearCart();
+    final isClear = await cartController.clearCart(
+      showConfirmation: true,
+    );
     if (isClear) {
       await _initial();
     }
   }
 
   Future<void> removeCartItem(ProductList product) async {
-    final isDeleted = await cartController.removeCartItem(product);
+    final isDeleted = await cartController.removeCartItem(
+      product,
+      showConfirmation: true,
+    );
     if (isDeleted) {
       await _initial();
     }

@@ -41,7 +41,9 @@ class CartController extends BaseController {
     try {
       final apiCartList = await services.getCartList();
       if (apiCartList != null) {
-        await clearCart();
+        await clearCart(
+          showConfirmation: false,
+        );
         await Future.forEach<Cart>(
           apiCartList,
           (element) async {
@@ -75,18 +77,27 @@ class CartController extends BaseController {
     }
   }
 
-  Future<bool> clearCart() async {
-    final confirm = await confirmationModal(msg: appLocalization.confirm);
-    if (!confirm) return false;
+  Future<bool> clearCart({
+    required bool showConfirmation,
+  }) async {
+    if (showConfirmation) {
+      final confirm = await confirmationModal(msg: appLocalization.confirm);
+      if (!confirm) return false;
+    }
     await dbHelper.deleteAll(tbl: tableCart);
     await dbHelper.deleteAll(tbl: tableCartProduct);
     await getTotalCarts();
     return true;
   }
 
-  Future<bool> removeCartItem(ProductList product) async {
-    final confirm = await confirmationModal(msg: appLocalization.confirm);
-    if (!confirm) return false;
+  Future<bool> removeCartItem(
+    ProductList product, {
+    required bool showConfirmation,
+  }) async {
+    if (showConfirmation) {
+      final confirm = await confirmationModal(msg: appLocalization.confirm);
+      if (!confirm) return false;
+    }
     Cart? deletedCart;
     await dataFetcher(
       future: () async {
