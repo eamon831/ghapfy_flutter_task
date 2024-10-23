@@ -109,7 +109,4 @@ class AppValues {
   static const double containerBorderRadius_8 = 8;
   static const double containerBorderRadius_12 = 12;
   static const double containerBorderRadius_16 = 16;
-
-  static const double boxBorderRadius = 8;
-  static const double buttonRadius = 4;
 }

@@ -130,7 +130,5 @@
   "system": "System",
   "icon": "Icon",
   "iconSize": "Icon Size",
-  "iconTheme": "Icon Theme",
-  "addToCart": "Add to Cart",
-  "areYouSure": "Are you sure?"
+  "iconTheme": "Icon Theme"
 }

@@ -1,7 +1,7 @@
 class AppAssets {
   AppAssets._();
 
-  static const appLogo = 'app_logo.png';
+  static const appLogo = 'app_logo.svg';
   static const evenProductImg = 'even_product_img.png';
   static const icArrowDown = 'ic_arrow_down.svg';
   static const icArrowRight = 'ic_arrow_right.svg';

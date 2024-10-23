@@ -10,29 +10,18 @@ class NoRecordFoundView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(
-        color: Colors.transparent,
+        color: Colors.red,
       ),
-      width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'No record found',
-            style: errorTextStyle,
-          ),
+          const Text('No record found'),
           if (onRetry != null)
-            SelectiveButton(
+            ElevatedButton(
               onPressed: onRetry,
-              text: 'Retry',
-              icon: TablerIcons.refresh_dot,
-              iconColor: Colors.red,
-              color: Colors.transparent,
-              padding: 10,
-              isSelected: true,
-              width: 100,
-              margin: 20,
+              child: const Text('Retry'),
             ),
         ],
       ),

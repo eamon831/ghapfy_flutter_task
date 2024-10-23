@@ -1,7 +1,5 @@
 import 'package:getx_template/app/core/utils/parser.dart';
-import 'package:getx_template/app/entity/cart.dart';
-import 'package:getx_template/app/entity/product_list.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:getx_template/app/entity/user.dart';
 
 import '/app/core/exporter.dart';
 import 'client/api_options.dart';
@@ -21,7 +19,7 @@ class Services {
     token: '',
   );
 
-  Map<String, dynamic> _buildHeader() {
+  Future<Map<String, dynamic>> _buildHeader() async {
     return {};
   }
 
@@ -42,7 +40,7 @@ class Services {
     required String username,
     required String password,
   }) async {
-    const endPoint = 'auth/login';
+    const endPoint = 'login';
     try {
       final data = {
         'username': username,
@@ -53,50 +51,18 @@ class Services {
         APIType.public,
         endPoint,
         data,
-        headers: _buildHeader(),
+        headers: await _buildHeader(),
       );
 
       final responseData = response.data as Map<String, dynamic>?;
-      if (responseData == null) {
+      if (responseData == null || responseData['error'] != null) {
         return false;
       }
-
-      final token = responseData['token'];
-      final decodedToken = JwtDecoder.decode(token);
-      // decode the jwt token and get the user id (i guess sub is the user id )
-      final userData = await getUserInfoById(userId: decodedToken!['sub']);
-      if (userData == null) {
-        return false;
-      }
-      await pref.setString(key: prefLoggedUserName, value: username);
-      await pref.setString(key: prefLoggedUserPassword, value: password);
-      await pref.setString(key: prefLoggedUserToken, value: token);
-      await pref.setBool(key: prefIsLogin, value: true);
-      await pref.setString(key: prefUser, value: jsonEncode(userData));
-      LoggedUser.fromJson(userData);
 
       return true;
     } catch (e, s) {
       printError(e, s, endPoint);
       return false;
-    }
-  }
-
-  Future<Map<String, dynamic>?> getUserInfoById({
-    required int userId,
-  }) async {
-    const endPoint = 'users/';
-    try {
-      final response = await dio.get(
-        APIType.public,
-        endPoint + userId.toString(),
-        headers: _buildHeader(),
-      );
-      final responseData = response.data as Map<String, dynamic>?;
-      return responseData;
-    } catch (e, s) {
-      printError(e, s, endPoint);
-      return null;
     }
   }
 
@@ -117,7 +83,7 @@ class Services {
         APIType.public,
         endPoint,
         data,
-        headers: _buildHeader(),
+        headers: await _buildHeader(),
       );
 
       final responseData = response.data as Map<String, dynamic>?;
@@ -126,90 +92,7 @@ class Services {
       }
     } catch (e, s) {
       printError(e, s, endPoint);
-      return null;
-    }
-  }
-
-  Future<List<ProductList>?> getProducts() async {
-    const endPoint = 'products';
-    try {
-      final response = await dio.get(
-        APIType.public,
-        endPoint,
-        headers: _buildHeader(),
-      );
-
-      final responseData = response.data as List?;
-      if (responseData == null) return null;
-      return parseList(
-        list: responseData,
-        fromJson: ProductList.fromJson,
-      );
-    } catch (e, s) {
-      printError(e, s, endPoint);
-      return null;
-    }
-  }
-
-  Future<List<Cart>?> getCartList() async {
-    const endPoint = 'carts/user/';
-    try {
-      final response = await dio.get(
-        APIType.public,
-        endPoint + LoggedUser().id.toString(),
-        headers: _buildHeader(),
-      );
-
-      final responseData = response.data as List?;
-      if (responseData == null) return null;
-      return parseList(
-        list: responseData,
-        fromJson: Cart.fromJson,
-      );
-    } catch (e, s) {
-      printError(e, s, endPoint);
-      return null;
-    }
-  }
-
-  Future<Cart?> addItemToCart(Cart cart) async {
-    const endPoint = 'carts';
-    try {
-      final response = await dio.post(
-        APIType.public,
-        endPoint,
-        cart.toJson(),
-        headers: _buildHeader(),
-      );
-
-      final responseData = response.data as Map<String, dynamic>?;
-      if (responseData == null) {
-        return null;
-      }
-      return Cart.fromJson(responseData);
-    } catch (e, s) {
-      printError(e, s, endPoint);
-      return null;
-    }
-  }
-
-  Future<Cart?> deleteItemFromCart(int cartId) async {
-    const endPoint = 'carts/';
-    try {
-      final response = await dio.delete(
-        APIType.public,
-        endPoint + cartId.toString(),
-        headers: _buildHeader(),
-      );
-
-      final responseData = response.data as Map<String, dynamic>?;
-      if (responseData == null) {
-        return null;
-      }
-      return Cart.fromJson(responseData);
-    } catch (e, s) {
-      printError(e, s, endPoint);
-      return null;
+      rethrow;
     }
   }
 }

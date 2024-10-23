@@ -96,8 +96,4 @@ class SessionManager {
       value,
     );
   }
-
-  Future<void> clear() async {
-    await prefs.clear();
-  }
 }

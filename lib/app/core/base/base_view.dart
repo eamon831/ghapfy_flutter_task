@@ -74,7 +74,13 @@ abstract class BaseView<Controller extends BaseController>
                 return Expanded(
                   child: RefreshIndicator(
                     onRefresh: controller.refreshData,
-                    child: body(context),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          body(context),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               }

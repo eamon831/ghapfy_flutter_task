@@ -21,22 +21,11 @@ class RetryView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Failed to load data',
-            style: errorTextStyle,
+          const Text('Failed to load data'),
+          ElevatedButton(
+            onPressed: onRetry,
+            child: const Text('Retry'),
           ),
-          if (onRetry != null)
-            SelectiveButton(
-              onPressed: onRetry,
-              text: 'Retry',
-              icon: TablerIcons.refresh_dot,
-              iconColor: Colors.red,
-              color: Colors.transparent,
-              padding: 10,
-              isSelected: true,
-              width: 100,
-              margin: 20,
-            ),
         ],
       ),
     );
