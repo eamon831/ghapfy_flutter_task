@@ -46,28 +46,16 @@ class CartListPageController extends BaseController {
   }
 
   Future<void> clearCart() async {
-    final confirm = await confirmationModal(msg: appLocalization.confirm);
-    if (!confirm) return;
-    await dbHelper.deleteAll(tbl: tableCartProduct);
-    await dbHelper.deleteAll(tbl: tableCart);
-    await _initial();
+    final isClear = await cartController.clearCart();
+    if (isClear) {
+      await _initial();
+    }
   }
 
   Future<void> removeCartItem(ProductList product) async {
-    final confirm = await confirmationModal(msg: appLocalization.confirm);
-    if (!confirm) return;
-    await dataFetcher(
-      future: () async {
-        final data = await services.deleteItemFromCart(product.id!.toInt());
-        if (data != null) {
-          await dbHelper.deleteAllWhr(
-            tableCartProduct,
-            'productId == ?',
-            [product.id],
-          );
-          await _initial();
-        }
-      },
-    );
+    final isDeleted = await cartController.removeCartItem(product);
+    if (isDeleted) {
+      await _initial();
+    }
   }
 }

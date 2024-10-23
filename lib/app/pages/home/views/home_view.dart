@@ -26,7 +26,7 @@ class HomeView extends BaseView<HomeController> {
           ),
         5.width,
         ElevatedButton(
-          onPressed: controller.clearCart,
+          onPressed: controller.cartController.clearCart,
           child: const Text('Clear Cart'),
         ),
       ],
@@ -130,7 +130,7 @@ class HomeView extends BaseView<HomeController> {
             children: [
               // add to cart button
               SelectiveButton(
-                onPressed: () => controller.addToCart(element),
+                onPressed: () => controller.cartController.addToCart(element),
                 color: Colors.green,
                 text: appLocalization.addToCart,
                 //isSelected: true,
@@ -204,7 +204,6 @@ class HomeView extends BaseView<HomeController> {
                     AppValues.containerBorderRadius,
                   ),
                 ),
-
                 child: const Text(
                   'Go to Cart',
                   textAlign: TextAlign.center,

@@ -1,7 +1,6 @@
 import 'package:getx_template/app/entity/cart.dart';
 import 'package:getx_template/app/entity/product_list.dart';
 import 'package:getx_template/app/global_controller/cart_controller.dart';
-import 'package:getx_template/app/pages/home/modal/add_to_card_modal.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '/app/core/exporter.dart';
@@ -39,19 +38,7 @@ class HomeController extends BaseController {
       try {
         // first fetch the cart list
         if (loggedUser.id != null) {
-          final apiCartList = await services.getCartList();
-          if (apiCartList != null) {
-            await dbHelper.deleteAll(tbl: tableCart);
-            await dbHelper.deleteAll(tbl: tableCartProduct);
-
-            await Future.forEach<Cart>(
-              apiCartList,
-              (element) async {
-                await dbHelper.addItemToCart(element);
-              },
-            );
-            await cartController.getTotalCarts();
-          }
+          await cartController.updateCartList();
         }
 
         final apiDataList = await services.getProducts();
@@ -107,28 +94,6 @@ class HomeController extends BaseController {
     Get.toNamed(Routes.login);
   }
 
-  Future<void> addToCart(ProductList element) async {
-    if (loggedUser.id == null) {
-      toast('Please login to add to cart');
-      return;
-    }
-    // Add to cart
-    final isCartAdded = await Get.dialog(
-      DialogPattern(
-        title: appLocalization.addToCart,
-        subTitle: '',
-        child: AddToCardModal(
-          productList: element,
-        ),
-      ),
-    );
-    if (isCartAdded != null) {
-      await dataFetcher(
-        future: () async {},
-      );
-    }
-  }
-
   void goToCartPage() {
     if (loggedUser.id == null) {
       toast('Please login to view cart');
@@ -138,15 +103,8 @@ class HomeController extends BaseController {
   }
 
   Future<void> logout() async {
-    await dbHelper.deleteAll(tbl: tableCart);
-    await dbHelper.deleteAll(tbl: tableCartProduct);
+    await cartController.clearCart();
     await prefs.clear();
     Get.offAllNamed(Routes.splashPage);
-  }
-
-  Future<void> clearCart() async {
-    await dbHelper.deleteAll(tbl: tableCart);
-    await dbHelper.deleteAll(tbl: tableCartProduct);
-    await cartController.getTotalCarts();
   }
 }
