@@ -37,8 +37,8 @@ class LoginPageView extends BaseView<LoginPageController> {
                     TextFormField(
                       controller: controller.usernameController,
                       decoration: primaryInputDecoration.copyWith(
-                        labelText: appLocalization.email,
-                        hintText: appLocalization.email,
+                        labelText: appLocalization.username,
+                        hintText: appLocalization.username,
                       ),
                       validator: requiredValidator,
                       autovalidateMode: onUserInteraction,

@@ -33,6 +33,10 @@ Functionalities:
 simply clone the project and run "flutter pub get" in the terminal on the root project directory
 then run the project from the terminal by running the command "flutter run  lib/main_dev.dart or flutter run  lib/main_prod.dart"
 
+## Login Credentials
+- Email: johnd
+- Password: m38rmF$
+
 # Tested on Android (Simulator)
 
 # State Management
