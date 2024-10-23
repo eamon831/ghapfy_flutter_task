@@ -115,4 +115,50 @@ class CartController extends BaseController {
     }
     return false;
   }
+
+  Future<void> createCart(ProductList productList, int quantity) async {
+    try {
+      if (quantity == 0) {
+        toast('At least one quantity is required');
+        return;
+      }
+      final date = DateFormat('yyyy-MM-dd').format(
+        DateTime.now(),
+      );
+
+      final cart = Cart(
+        id: 0,
+        userId: LoggedUser().id!.toInt(),
+        date: date,
+        products: [
+          CartProduct(
+            productId: productList.id,
+            quantity: quantity,
+          ),
+        ],
+      );
+      try {
+        Cart? data;
+        await dataFetcher(
+          future: () async {
+            data = await services.addItemToCart(cart);
+          },
+        );
+        if (data != null) {
+          await dbHelper.addItemToCart(data!);
+        } else {
+          await dbHelper.addItemToCart(cart);
+          toast('Saved Locally');
+        }
+        await getTotalCarts();
+        if (data != null) {
+          Get.back(
+            result: {},
+          );
+        }
+      } catch (e) {}
+    } catch (e) {
+      toast('Failed to add to cart');
+    }
+  }
 }

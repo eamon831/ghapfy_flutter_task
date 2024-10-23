@@ -114,42 +114,9 @@ class _AddToCardModalState extends State<AddToCardModal> {
   }
 
   Future<void> _addToCart() async {
-    try {
-      if (quantity.value == 0) {
-        toast('At least one quantity is required');
-        return;
-      }
-      final date = DateFormat('yyyy-MM-dd').format(
-        DateTime.now(),
-      );
-
-      final cart = Cart(
-        id: 0,
-        userId: LoggedUser().id!.toInt(),
-        date: date,
-        products: [
-          CartProduct(
-            productId: widget.productList.id,
-            quantity: quantity.value,
-          ),
-        ],
-      );
-      try {
-        final services = Services();
-        final data = await services.addItemToCart(cart);
-        if (data != null) {
-          await dbHelper.addItemToCart(data);
-        } else {
-          await dbHelper.addItemToCart(cart);
-        }
-        final cartController = Get.find<CartController>();
-        await cartController.getTotalCarts();
-        Get.back(
-          result: {},
-        );
-      } catch (e) {}
-    } catch (e) {
-      toast('Failed to add to cart');
-    }
+    await Get.find<CartController>().createCart(
+      widget.productList,
+      quantity.value,
+    );
   }
 }
