@@ -81,7 +81,7 @@ class CartController extends BaseController {
     required bool showConfirmation,
   }) async {
     if (showConfirmation) {
-      final confirm = await confirmationModal(msg: appLocalization.confirm);
+      final confirm = await confirmationModal(msg: appLocalization.areYouSure);
       if (!confirm) return false;
     }
     await dbHelper.deleteAll(tbl: tableCart);
@@ -95,7 +95,7 @@ class CartController extends BaseController {
     required bool showConfirmation,
   }) async {
     if (showConfirmation) {
-      final confirm = await confirmationModal(msg: appLocalization.confirm);
+      final confirm = await confirmationModal(msg: appLocalization.areYouSure);
       if (!confirm) return false;
     }
     Cart? deletedCart;

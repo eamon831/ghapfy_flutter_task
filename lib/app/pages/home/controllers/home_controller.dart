@@ -111,7 +111,7 @@ class HomeController extends BaseController {
   }
 
   Future<void> logout() async {
-    final confirm = await confirmationModal(msg: appLocalization.confirm);
+    final confirm = await confirmationModal(msg: appLocalization.areYouSure);
     if (!confirm) return;
 
     await cartController.clearCart(

@@ -131,5 +131,6 @@
   "icon": "আইকন",
   "iconSize": "আইকন সাইজ",
   "iconTheme": "আইকন থিম",
-  "addToCart": "কার্টে যোগ করুন"
+  "addToCart": "কার্টে যোগ করুন",
+  "areYouSure": "আপনি কি নিশ্চিত?"
 }
