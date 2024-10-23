@@ -1,7 +1,7 @@
 # Ghapfy Flutter Developer Hiring Test
 
 ## Overview
-This Flutter project is part of the hiring process for Ghapfy . The goal of the project is to create a app for e-commerce app with the following features.
+This Flutter project is part of the hiring process for Ghapfy. The goal of the project is to create a app for e-commerce app with the following features.
 
 Modules:
 - Sign In
@@ -68,6 +68,8 @@ This project uses **GetX** for state management. The relevant files are located 
 ![s3](s3.png)
 ![s4](s4.png)
 ![s5](s5.png)
+
+# Thank you
 
 
 
