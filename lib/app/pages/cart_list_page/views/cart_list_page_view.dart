@@ -12,10 +12,14 @@ class CartListPageView extends BaseView<CartListPageController> {
     return CustomAppBar(
       appBarTitleText: appLocalization.cart,
       actions: [
-        IconButton(
-          icon: const Text('Clear Cart'),
-          onPressed: controller.clearCart,
+        SelectiveButton(
+          onPressed:  controller.clearCart,
+          text: 'Clear Cart',
+          textColor: Colors.white,
+          isSelected: true,
+          margin: 5,
         ),
+
       ],
     );
   }
@@ -85,13 +89,12 @@ class CartListPageView extends BaseView<CartListPageController> {
               8.height,
               SelectiveButton(
                 onPressed: () => controller.removeCartItem(product),
-              //  width: 60,
+                //  width: 60,
                 text: 'Remove',
                 icon: Icons.delete,
                 iconColor: Colors.red,
                 textColor: Colors.red,
               ),
-
             ],
           ),
         );

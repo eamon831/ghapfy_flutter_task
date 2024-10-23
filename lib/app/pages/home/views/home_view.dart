@@ -17,28 +17,28 @@ class HomeView extends BaseView<HomeController> {
           SelectiveButton(
             onPressed: controller.goToLoginPage,
             text: 'Log in',
+            textColor: Colors.white,
+            isSelected: true,
           ),
         // logout button
         if (controller.loggedUser.id != null)
           SelectiveButton(
             onPressed: controller.logout,
             text: 'Log Out',
+            textColor: Colors.white,
+            isSelected: true,
           ),
-        5.width,
-        SelectiveButton(
-          onPressed: () => controller.cartController.clearCart(
-            showConfirmation: true,
-          ),
-          text: 'Clear Cart',
-        ),
+
         5.width,
         SelectiveButton(
           onPressed: () => controller.clearProduct(
             showConfirmation: true,
           ),
           text: 'Clear Product',
+          textColor: Colors.white,
           isSelected: true,
         ),
+        5.width,
       ],
     );
   }
@@ -130,7 +130,7 @@ class HomeView extends BaseView<HomeController> {
           ),
           8.height,
           Text(
-          'Price ${element.price}',
+            'Price ${element.price}',
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
