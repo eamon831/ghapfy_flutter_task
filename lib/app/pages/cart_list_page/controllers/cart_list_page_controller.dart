@@ -6,6 +6,7 @@ import '/app/core/exporter.dart';
 class CartListPageController extends BaseController {
   final cartController = Get.find<CartController>();
   final products = Rx<List<ProductList>?>(null);
+  final quantity = <num, num>{}.obs;
 
   @override
   Future<void> onInit() async {
@@ -27,12 +28,22 @@ class CartListPageController extends BaseController {
   }
 
   Future<void> prepareCartList() async {
-    final productIds = await dbHelper.setOfColumns(
-      tableCartProduct,
-      'productId',
+    final productIds = await dbHelper.getAll(
+      tbl: tableCartProduct,
     );
 
-    final ids = productIds.map((e) => e['productId']).toList();
+    final ids = productIds.map((e) => e['productId']).toList().toSet().toList();
+
+    for (final element in ids) {
+      // sum total quantity of each product and store in quantity list
+      final totalQuantity = productIds
+          .where((e) => e['productId'] == element)
+          .map((e) => e['quantity'])
+          .toList()
+          .reduce((value, element) => value + element);
+      quantity[element] = totalQuantity;
+    }
+
     final placeholders = ids.map((_) => '?').join(', ');
     // Fetch all products at once using the IN clause
     final productsMaps = await dbHelper.getAllWhr(
@@ -42,6 +53,7 @@ class CartListPageController extends BaseController {
     );
 
     products.value = productsMaps.map(ProductList.fromJson).toList();
+
     await cartController.getTotalCarts();
   }
 

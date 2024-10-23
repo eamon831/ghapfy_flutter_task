@@ -130,11 +130,13 @@ class HomeView extends BaseView<HomeController> {
           ),
           8.height,
           Text(
-            element.price.toString(),
+          'Price ${element.price}',
             style: const TextStyle(
               fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
+          8.height,
           Row(
             mainAxisAlignment: spaceBetweenMAA,
             children: [
