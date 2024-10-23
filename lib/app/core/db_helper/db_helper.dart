@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:getx_template/app/core/utils/parser.dart';
+import 'package:getx_template/app/entity/cart.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 part 'db_tables.dart';
 
 class DbHelper {
-  static const String _dbName = 'getx_template.db';
+  static const String _dbName = 'ghapfy.db';
   static const _dbVersion = 1;
   static var status = '';
 
@@ -226,5 +227,93 @@ class DbHelper {
       return result.toList();
     }
     return [];
+  }
+
+  Future<List> setOfColumns(String tbl, String column) async {
+    final Database? db = await instance.database;
+    if (db != null) {
+      final result = await db.rawQuery('''
+  SELECT DISTINCT $column FROM $tbl;
+  ''');
+      return result.toList();
+    }
+    return [];
+  }
+
+  Future<List<Map<String, Object?>>> getTotalCountANdSum({
+    String? tableName,
+  }) async {
+    final db = await instance.database;
+    final result = await db!.rawQuery('''
+    SELECT 
+      COUNT(DISTINCT cp.productId) AS totalItems, 
+      SUM(cp.quantity) AS totalQuantity, 
+      ROUND(SUM(cp.quantity * p.price), 2) AS totalPrice
+    FROM $tableCartProduct cp
+    JOIN $tableProducts p ON cp.productId = p.id
+  ''');
+
+    return result;
+  }
+
+  Future<bool> addItemToCart(Cart cart) async {
+    try {
+      final db = await instance.database;
+
+      if (db == null) {
+        if (kDebugMode) {
+          print('Database instance is null');
+        }
+        return false;
+      }
+
+      final cartId = await db.insert(
+        tableCart,
+        {
+          'id': cart.id,
+          'userId': cart.userId,
+          'date': cart.date,
+        },
+      );
+
+      // Insert or update CartProducts related to this cart
+      for (final product in cart.products) {
+        // Check if the product already exists in the CartProduct table
+        final result = await db.query(
+          tableCartProduct,
+          where: 'cartId = ? AND productId = ?',
+          whereArgs: [cartId, product.productId],
+        );
+
+        if (result.isNotEmpty) {
+          await db.update(
+            tableCartProduct,
+            {
+              'quantity': product.quantity,
+            },
+            where: 'cartId = ? AND productId = ?',
+            whereArgs: [cartId, product.productId],
+          );
+        } else {
+          // If the product doesn't exist, insert it as a new entry
+          await db.insert(
+            tableCartProduct,
+            {
+              'cartId': cartId,
+              'productId': product.productId,
+              'quantity': product.quantity,
+            },
+          );
+        }
+      }
+
+      return true;
+    } catch (e, s) {
+      if (kDebugMode) {
+        print('Error adding item to cart: $e');
+        print('Stack trace: $s');
+      }
+      return false;
+    }
   }
 }

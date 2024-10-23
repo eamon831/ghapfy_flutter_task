@@ -9,8 +9,8 @@ const centerTextStyle = TextStyle(
 );
 
 const errorTextStyle = TextStyle(
-  fontSize: 12,
-  fontWeight: FontWeight.w400,
+  fontSize: 24,
+  fontWeight: FontWeight.bold,
   color: AppColors.errorColor,
 );
 
